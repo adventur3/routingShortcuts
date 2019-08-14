@@ -16,7 +16,7 @@ import simulator.SimClock;
 public class Dijkstra{
 
     /*
-     *put the node that adjacents to roadNode into forward priority queue
+     *put the node that adjacents to roadNode into forward priority queue.
      *
      * @param g
      * @param roadNode
