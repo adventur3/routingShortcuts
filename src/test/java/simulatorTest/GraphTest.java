@@ -27,11 +27,11 @@ public class GraphTest {
         //create the road net
         Graph<RoadNode, RoadEdge> g = LoadMap.getMap(GRAPH_FILE);
         System.out.println("graph ok");
-//    	RoadNode e1 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("1881181356")).findAny().get();
-//    	RoadNode e2 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("2592412682")).findAny().get();
+    	RoadNode e1 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("1881181356")).findAny().get();
+    	RoadNode e2 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("2592412682")).findAny().get();
 
-        RoadNode e1 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("4012919283")).findAny().get();
-        RoadNode e2 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("1223212190")).findAny().get();
+        //RoadNode e1 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("4012919283")).findAny().get();
+        //RoadNode e2 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("1223212190")).findAny().get();
 
         Set<RoadEdge> edgeSet = g.edgesOf(e1);
 //		RoadSegmentEdge edge = null;
@@ -55,8 +55,6 @@ public class GraphTest {
         Instant inst4 = Instant.now();
         System.out.println("T1="+ Duration.between(inst1, inst2).toMillis()+",T2="+Duration.between(inst2, inst3).toMillis()+",T3="+Duration.between(inst3,inst4).toMillis());
         System.out.println("输出完成！");
-
-
 
 //		Instant inst1 = Instant.now();
 //		testCoreRouting(g,e1,e2,simClock);
