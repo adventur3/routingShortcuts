@@ -46,6 +46,9 @@ public class PartitionOper {
     }
 
     public  RoadNode findNearCore(RoadNode roadNode, Graph<RoadNode, RoadEdge> g){
+        if(roadNode.isCore()){
+            return roadNode;
+        }
         if(belongingMap.get(roadNode.getOsmId())!=null){
             return g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals(belongingMap.get(roadNode.getOsmId()))).findAny().get();
             //return GraphUtil.findRoadNodeById(graph,belongingMap.get(id));

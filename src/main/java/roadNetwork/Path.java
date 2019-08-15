@@ -30,6 +30,10 @@ public class Path implements Serializable {
         return pathSegment;
     }
 
+    public void setWeight(long weight){
+        this.weight = weight;
+    }
+
     public boolean isEmpty() {
         return this.segmentList.isEmpty();
     }
@@ -40,6 +44,14 @@ public class Path implements Serializable {
 
     public List<PathSegment> getSegmentList(){
         return this.segmentList;
+    }
+
+    public static Path pathCombine(Path p1, Path p2){
+        Path path = new Path();
+        path.getSegmentList().addAll(p1.getSegmentList());
+        path.getSegmentList().addAll(p2.getSegmentList());
+        path.setWeight(p1.getWeight()+p2.getWeight());
+        return path;
     }
 
 }

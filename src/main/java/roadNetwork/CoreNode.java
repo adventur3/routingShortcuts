@@ -1,6 +1,9 @@
 package roadNetwork;
 
+import simulator.SimClock;
+
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.Set;
 
 public class CoreNode implements Serializable {
@@ -23,5 +26,18 @@ public class CoreNode implements Serializable {
 
     public RoadNode getRoadNode() {
         return this.roadNode;
+    }
+
+    public Path getPath(long time, CoreNode targetNode){
+        Iterator<CoreEdge> it = this.edgeSet.iterator();
+        Path p = null;
+        while(it.hasNext()){
+            CoreEdge coreEdge = it.next();
+            if(coreEdge.isTargetNode(targetNode)){
+                p = coreEdge.getTimeDependentPathList().get(SimClock.getMinuteId(time));
+                break;
+            }
+        }
+        return p;
     }
 }
