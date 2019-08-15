@@ -8,6 +8,7 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import roadNetwork.*;
+import shortcuts.ShortcutWithDijkstra;
 import simulator.SimClock;
 
 import java.io.IOException;
@@ -50,7 +51,7 @@ public class GraphTest {
         Instant inst2 = Instant.now();
         testDijkstra(g,simClock,e1,e2);
         Instant inst3 = Instant.now();
-        //testCoreRouting(g,e1,e2,simClock);
+        testShortcutRouting(g,simClock,e1,e2);
         Instant inst4 = Instant.now();
         System.out.println("T1="+ Duration.between(inst1, inst2).toMillis()+",T2="+Duration.between(inst2, inst3).toMillis()+",T3="+Duration.between(inst3,inst4).toMillis());
         System.out.println("输出完成！");
@@ -85,5 +86,14 @@ public class GraphTest {
         }
     }
 
+    public static void testShortcutRouting(Graph<RoadNode, RoadEdge> g, SimClock clock, RoadNode e1, RoadNode e2){
+        Path thepath = ShortcutWithDijkstra.singlePath(g, clock, e1, e2);
+        //System.out.println("path:="+thepath);
+        while(!thepath.isEmpty()) {
+            PathSegment pathSegment = thepath.pollPathSegment();
+            InfoNode inode = pathSegment.getEndNode();
+            System.out.println("++"+inode.getRoadNode().getOsmId()+"++");
+        }
+    }
 
 }
