@@ -6,6 +6,7 @@ import java.io.Serializable;
  * the segment of Path
  */
 public class PathSegment implements Serializable {
+    private static final long serialVersionUID = 4831863572747170883L;
     private RoadNode startNode;
     private RoadNode endNode;
     private long weight;
