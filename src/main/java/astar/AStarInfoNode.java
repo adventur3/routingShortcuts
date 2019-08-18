@@ -10,7 +10,7 @@ public class AStarInfoNode {
     private AStarInfoNode parent;
     private boolean settedFlag;
     private boolean exploredFlag;
-    private long weightFromParent;	//the distance(time) from parent node
+    private long weightFromParent;	//the distance(time) from parent node, measurement: ms
     private long realWeight;				//the distance(time) from start node
     private long estimatedWeight;    // the estimated weight(time) from target node
     private long weight;
@@ -27,6 +27,18 @@ public class AStarInfoNode {
 //        this.weight = 0;
 //        this.arrivalTime = startTime;
 //    }
+
+    public AStarInfoNode(long startTime, RoadNode roadNode, RoadNode target){
+        this.roadNode = roadNode;
+        this.parent = null;
+        this.settedFlag = false;
+        this.exploredFlag = false;
+        this.weightFromParent = 0;
+        this.realWeight = 0;
+        this.estimatedWeight = (long) (MillerCoordinate.distance(roadNode, target)/AStar.estimatedSpeed);
+        this.weight = this.realWeight + this.estimatedWeight;
+        this.arrivalTime = startTime + weightFromParent;
+    }
 
     public AStarInfoNode(RoadNode roadNode, AStarInfoNode parent, RoadNode target, long weightFromParent){
         this.roadNode = roadNode;

@@ -1,5 +1,6 @@
 package simulatorTest;
 
+import astar.AStar;
 import dijkstra.Dijkstra;
 import dijkstra.InfoNode;
 import org.dom4j.DocumentException;
@@ -51,9 +52,11 @@ public class GraphTest {
         Instant inst2 = Instant.now();
         testDijkstra(g,simClock,e1,e2);
         Instant inst3 = Instant.now();
-        testShortcutRouting(g,simClock,e1,e2);
+        testAStar(g,simClock,e1,e2);
         Instant inst4 = Instant.now();
-        System.out.println("T1="+ Duration.between(inst1, inst2).toMillis()+",T2="+Duration.between(inst2, inst3).toMillis()+",T3="+Duration.between(inst3,inst4).toMillis());
+        testShortcutRouting(g,simClock,e1,e2);
+        Instant inst5 = Instant.now();
+        System.out.println("T1="+ Duration.between(inst1, inst2).toMillis()+",T2="+Duration.between(inst2, inst3).toMillis()+",T3="+Duration.between(inst3,inst4).toMillis()+",T4="+Duration.between(inst4,inst5).toMillis());
         System.out.println("输出完成！");
 
 //		Instant inst1 = Instant.now();
@@ -70,7 +73,7 @@ public class GraphTest {
         Iterator it = thepath.getVertexList().iterator();
         while(it.hasNext()) {
             RoadNode rnode = (RoadNode) it.next();
-            System.out.println("**"+rnode.getOsmId()+"**");
+            System.out.println("jgra:"+rnode.getOsmId());
         }
     }
 
@@ -79,8 +82,18 @@ public class GraphTest {
         //System.out.println("path:="+thepath);
         while(!thepath.isEmpty()) {
             PathSegment pathSegment = thepath.pollPathSegment();
-            InfoNode inode = pathSegment.getEndNode();
-            System.out.println("--"+inode.getRoadNode().getOsmId()+"--");
+            RoadNode node = pathSegment.getEndNode();
+            System.out.println("dijk:"+node.getOsmId());
+        }
+    }
+
+    public static void testAStar(Graph<RoadNode, RoadEdge> g, SimClock clock, RoadNode e1, RoadNode e2){
+        Path thepath = AStar.singlePath(g, clock, e1, e2);
+        //System.out.println("path:="+thepath);
+        while(!thepath.isEmpty()) {
+            PathSegment pathSegment = thepath.pollPathSegment();
+            RoadNode node = pathSegment.getEndNode();
+            System.out.println("asta:"+node.getOsmId()+"++");
         }
     }
 
@@ -89,8 +102,8 @@ public class GraphTest {
         //System.out.println("path:="+thepath);
         while(!thepath.isEmpty()) {
             PathSegment pathSegment = thepath.pollPathSegment();
-            InfoNode inode = pathSegment.getEndNode();
-            System.out.println("++"+inode.getRoadNode().getOsmId()+"++");
+            RoadNode node = pathSegment.getEndNode();
+            System.out.println("shor:"+node.getOsmId()+"++");
         }
     }
 

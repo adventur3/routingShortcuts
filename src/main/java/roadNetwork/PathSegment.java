@@ -1,42 +1,40 @@
 package roadNetwork;
 
-import dijkstra.InfoNode;
-
 import java.io.Serializable;
 
 /*
  * the segment of Path
  */
 public class PathSegment implements Serializable {
-    private InfoNode startNode;
-    private InfoNode endNode;
+    private RoadNode startNode;
+    private RoadNode endNode;
     private long weight;
 
 
 
-    public PathSegment(InfoNode startNode, InfoNode endNode, long weight) {
+    public PathSegment(RoadNode startNode, RoadNode endNode, long weight) {
         this.startNode = startNode;
         this.endNode = endNode;
         this.weight = weight;
     }
 
-    public void setStartNode(InfoNode startNode) {
+    public void setStartNode(RoadNode startNode) {
         this.startNode = startNode;
     }
 
-    public InfoNode getStartNode() {
+    public RoadNode getStartNode() {
         return this.startNode;
     }
 
-    public void setEndNode(InfoNode endNode) {
+    public void setEndNode(RoadNode endNode) {
         this.endNode = endNode;
     }
 
-    public InfoNode getEndNode() {
+    public RoadNode getEndNode() {
         return this.endNode;
     }
 
-    public void setDistance(long weight) {
+    public void setWeight(long weight) {
         this.weight = weight;
     }
 

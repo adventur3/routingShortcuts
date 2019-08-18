@@ -110,7 +110,7 @@ public class Dijkstra{
         Path path = new Path();
         while (inode != startInfoNode) {
             InfoNode parentInfoNode = inode.getParent();
-            PathSegment pathSegment = new PathSegment(parentInfoNode, inode, inode.getWeightFromParent());
+            PathSegment pathSegment = new PathSegment(parentInfoNode.getRoadNode(), inode.getRoadNode(), inode.getWeightFromParent());
             path.addPathSegmentFirst(pathSegment);
             count ++;
             if (count > 9999999) {
