@@ -30,4 +30,11 @@ public class RequestLoader {
         }
     }
 
+    public LinkedList<Request> getRequestList() {
+        return requestList;
+    }
+
+    public void setRequestList(LinkedList<Request> requestList) {
+        this.requestList = requestList;
+    }
 }
