@@ -6,7 +6,6 @@ import roadNetwork.MillerCoordinate;
 import roadNetwork.RoadEdge;
 import roadNetwork.RoadNode;
 
-import javax.xml.soap.Node;
 import java.io.*;
 import java.util.Iterator;
 import java.util.LinkedList;
