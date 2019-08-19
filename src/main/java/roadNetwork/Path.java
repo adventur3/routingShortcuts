@@ -48,9 +48,17 @@ public class Path implements Serializable {
 
     public static Path pathCombine(Path p1, Path p2){
         Path path = new Path();
-        path.getSegmentList().addAll(p1.getSegmentList());
-        path.getSegmentList().addAll(p2.getSegmentList());
-        path.setWeight(p1.getWeight()+p2.getWeight());
+        if(p1!=null&&p2!=null){
+            path.getSegmentList().addAll(p1.getSegmentList());
+            path.getSegmentList().addAll(p2.getSegmentList());
+            path.setWeight(p1.getWeight()+p2.getWeight());
+        }else if(p1!=null&&p2==null){
+            path.getSegmentList().addAll(p1.getSegmentList());
+            path.setWeight(p1.getWeight());
+        }else if(p1==null&&p2!=null){
+            path.getSegmentList().addAll(p2.getSegmentList());
+            path.setWeight(p2.getWeight());
+        }
         return path;
     }
 

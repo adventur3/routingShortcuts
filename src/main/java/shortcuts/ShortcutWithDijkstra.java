@@ -20,11 +20,22 @@ public class ShortcutWithDijkstra {
      */
     public static Path singlePath(Graph<RoadNode, RoadEdge> g, SimClock simClock, RoadNode start, RoadNode target) {
         RoadNode startBelong = start.getBelongTo();
-        RoadNode targeBelong = target.getBelongTo();
+        RoadNode targetBelong = target.getBelongTo();
         long starttime = simClock.getNow();
         Path p1 = Dijkstra.singlePath(g, starttime, start, startBelong);
-        Path p2 = startBelong.getCoreNode().getPath(starttime+p1.getWeight(), targeBelong.getCoreNode());
-        Path p3 = Dijkstra.singlePath(g, starttime+p1.getWeight()+p2.getWeight(), targeBelong, target);
+        Path p2 = startBelong.getCoreNode().getPath(starttime+p1.getWeight(), targetBelong.getCoreNode());
+        //System.out.println("star id="+start.getOsmId()+" startBelong id="+startBelong.getOsmId()+" targetBelong id="+ targetBelong.getOsmId()+" target id="+target.getOsmId());
+        Path p3 = null;
+        if(p1==null&&p2==null){
+            p3 = Dijkstra.singlePath(g, starttime, targetBelong, target);
+        }else if(p1==null){
+            p3 = Dijkstra.singlePath(g, starttime+p2.getWeight(), targetBelong, target);
+        }else if(p2==null){
+            p3 = Dijkstra.singlePath(g, starttime+p1.getWeight(), targetBelong, target);
+        }else{
+            p3 = Dijkstra.singlePath(g, starttime+p1.getWeight()+p2.getWeight(), targetBelong, target);
+        }
+
         Path temp_p = Path.pathCombine(p1,p2);
 
 //        while(!p1.isEmpty()) {
