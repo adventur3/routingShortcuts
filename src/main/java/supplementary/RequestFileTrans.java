@@ -23,7 +23,7 @@ public class RequestFileTrans {
         InputStreamReader read = new InputStreamReader(new FileInputStream(requestFile));
         BufferedReader bufferedReader = new BufferedReader(read);
         LinkedList<NodePair> nodePairs = new LinkedList<NodePair>();
-
+        int count = 0;
         String lineTxt = "";
         while((lineTxt = bufferedReader.readLine()) != null){
             String s[]=lineTxt.split("#");
@@ -41,6 +41,8 @@ public class RequestFileTrans {
             }
             NodePair nodePair = new NodePair(startNode.getOsmId(), targetNode.getOsmId());
             nodePairs.add(nodePair);
+            count ++;
+            System.out.println("count=" + count);
         }
 
 
