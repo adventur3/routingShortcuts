@@ -23,7 +23,14 @@ public class ShortcutWithDijkstra {
         RoadNode targetBelong = target.getBelongTo();
         long starttime = simClock.getNow();
         Path p1 = Dijkstra.singlePath(g, starttime, start, startBelong);
-        Path p2 = startBelong.getCoreNode().getPath(starttime+p1.getWeight(), targetBelong.getCoreNode());
+        Path p2 = null;
+        if(p1!=null){
+           p2 = startBelong.getCoreNode().getPath(starttime+p1.getWeight(), targetBelong.getCoreNode());
+        }else{
+           p2 = startBelong.getCoreNode().getPath(starttime, targetBelong.getCoreNode());
+        }
+
+
         //System.out.println("star id="+start.getOsmId()+" startBelong id="+startBelong.getOsmId()+" targetBelong id="+ targetBelong.getOsmId()+" target id="+target.getOsmId());
         Path p3 = null;
         if(p1==null&&p2==null){
