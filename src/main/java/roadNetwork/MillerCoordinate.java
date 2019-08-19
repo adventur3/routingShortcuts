@@ -27,6 +27,10 @@ public class MillerCoordinate {
         return Math.sqrt(Math.pow(c1[0]-c2[0],2)+Math.pow(c1[1]-c2[1],2));
     }
 
+
+    /*
+        return measurement: m
+     */
     public static double[] MillierConvertion(double lat, double lon){
         double L = 6381372 * Math.PI * 2;//地球周长
         double W=L;// 平面展开后，x轴等于周长
