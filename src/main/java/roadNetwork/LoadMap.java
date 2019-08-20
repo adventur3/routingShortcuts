@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.util.*;
 
 
+import astar.AStar;
 import dijkstra.Dijkstra;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultDirectedGraph;
@@ -98,12 +99,13 @@ public class LoadMap {
             RoadEdge roadEdge = g.getEdge(sRoadNode, eRoadNode);
 
             if(roadEdge==null){
+                long weight = (long)(MillerCoordinate.distance(sRoadNode.getLat(),sRoadNode.getLon(),eRoadNode.getLat(),eRoadNode.getLon())/AStar.estimatedSpeed);
                 roadEdge=g.addEdge(sRoadNode, eRoadNode);
                 roadEdge.setOsm_id(String.valueOf(start_id));
-                roadEdge.setMinWeight(1);
+                roadEdge.setMinWeight(weight);
                 List<Long> distances=new ArrayList<>();
                 for(int i=0;i<breakPoint;i++){
-                    distances.add(1L);
+                    distances.add(weight);
                 }
                 roadEdge.setWeightList(distances);
                 start_id++;
@@ -115,12 +117,13 @@ public class LoadMap {
             //双向连接
             RoadEdge reverseEdge=g.getEdge(eRoadNode, sRoadNode);
             if(reverseEdge == null) {
+                long weight = (long)(MillerCoordinate.distance(sRoadNode.getLat(),sRoadNode.getLon(),eRoadNode.getLat(),eRoadNode.getLon())/AStar.estimatedSpeed);
                 reverseEdge = g.addEdge(eRoadNode, sRoadNode);
                 reverseEdge.setOsm_id(String.valueOf(start_id));
-                reverseEdge.setMinWeight(1);
+                reverseEdge.setMinWeight(weight);
                 List<Long> reverseDistances = new ArrayList<>();
                 for (int i = 0; i < breakPoint; i++) {
-                    reverseDistances.add(1L);
+                    reverseDistances.add(weight);
                 }
                 reverseEdge.setWeightList(reverseDistances);
                 start_id++;

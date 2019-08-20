@@ -11,7 +11,7 @@ import java.util.*;
 
 public class AStar {
 
-    public static double estimatedSpeed = 0.017;  // measurement:m/ms
+    public static double estimatedSpeed = 0.025;  // measurement:m/ms
 
 
     /*

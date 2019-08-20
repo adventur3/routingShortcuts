@@ -1,4 +1,4 @@
-package simulator;
+package simulatorTest;
 
 import astar.AStar;
 import dijkstra.Dijkstra;
@@ -10,6 +10,9 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import roadNetwork.*;
 import shortcuts.ShortcutWithDijkstra;
+import simulator.Request;
+import simulator.RequestLoader;
+import simulator.SimClock;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -17,10 +20,10 @@ import java.time.Instant;
 import java.util.Iterator;
 import java.util.Set;
 
-public class Simulator {
+public class RoutingTest {
 
     private static String GRAPH_FILE = "experimentData/core_choose_nums=4000_core_nums=50_graph.ser";
-    private static String REQUEST_FILE = "experimentData/requests.txt";
+    private static String REQUEST_FILE = "experimentData/requests1.txt";
 
     public static void main(String[] args) throws IOException, DocumentException, java.lang.Exception {
 
@@ -50,25 +53,28 @@ public class Simulator {
         it = requestLoader.getRequestList().iterator();
         while(it.hasNext()){
             Request r = it.next();
-//            testDijkstra(g,simClock,r.getStart(),r.getTarget());
-            Path p1 = Dijkstra.singlePath(g, simClock, r.getStart(), r.getTarget());
-            count2 += p1.getWeight();
+            testDijkstra(g,simClock,r.getStart(),r.getTarget());
+//            Path p1 = Dijkstra.singlePath(g, simClock, r.getStart(), r.getTarget());
+//            if(p1.getWeight()<0){
+//                System.out.println("count = "+count1+" weight="+p1.getWeight());
+//            }
+//            count2 += p1.getWeight();
         }
         Instant inst3 = Instant.now();
         it = requestLoader.getRequestList().iterator();
         while(it.hasNext()){
             Request r = it.next();
-//            testAStar(g,simClock,r.getStart(),r.getTarget());
-            Path p2 = AStar.singlePath(g, simClock, r.getStart(), r.getTarget());
-            count3 += p2.getWeight();
+            testAStar(g,simClock,r.getStart(),r.getTarget());
+//            Path p2 = AStar.singlePath(g, simClock, r.getStart(), r.getTarget());
+//            count3 += p2.getWeight();
         }
         Instant inst4 = Instant.now();
         it = requestLoader.getRequestList().iterator();
         while(it.hasNext()){
             Request r = it.next();
-//            testShortcutRouting(g,simClock,r.getStart(),r.getTarget());
-            Path p3 = ShortcutWithDijkstra.singlePath(g, simClock, r.getStart(), r.getTarget());
-            count4 += p3.getWeight();
+            testShortcutRouting(g,simClock,r.getStart(),r.getTarget());
+//            Path p3 = ShortcutWithDijkstra.singlePath(g, simClock, r.getStart(), r.getTarget());
+//            count4 += p3.getWeight();
         }
         Instant inst5 = Instant.now();
         System.out.println("T1="+ Duration.between(inst1, inst2).toMillis()+",T2="+Duration.between(inst2, inst3).toMillis()+",T3="+Duration.between(inst3,inst4).toMillis()+",T4="+Duration.between(inst4,inst5).toMillis());
@@ -90,7 +96,7 @@ public class Simulator {
         Iterator it = thepath.getVertexList().iterator();
         while(it.hasNext()) {
             RoadNode rnode = (RoadNode) it.next();
-            //System.out.println("jgra:"+rnode.getOsmId());
+            System.out.println("jgra:"+rnode.getOsmId());
         }
     }
 
