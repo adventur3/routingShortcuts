@@ -2,6 +2,7 @@ package simulator;
 
 import astar.AStar;
 import dijkstra.Dijkstra;
+import roadNetwork.Path;
 import org.dom4j.DocumentException;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
@@ -48,23 +49,26 @@ public class Simulator {
         Instant inst2 = Instant.now();
         it = requestLoader.getRequestList().iterator();
         while(it.hasNext()){
-            count2++;
             Request r = it.next();
-            testDijkstra(g,simClock,r.getStart(),r.getTarget());
+            //testDijkstra(g,simClock,r.getStart(),r.getTarget());
+            Path p1 = Dijkstra.singlePath(g, simClock, r.getStart(), r.getTarget());
+            count2 += p1.getWeight();
         }
         Instant inst3 = Instant.now();
         it = requestLoader.getRequestList().iterator();
         while(it.hasNext()){
-            count3++;
             Request r = it.next();
-            testAStar(g,simClock,r.getStart(),r.getTarget());
+            //testAStar(g,simClock,r.getStart(),r.getTarget());
+            Path p2 = AStar.singlePath(g, simClock, r.getStart(), r.getTarget());
+            count3 += p2.getWeight();
         }
         Instant inst4 = Instant.now();
         it = requestLoader.getRequestList().iterator();
         while(it.hasNext()){
-            count4++;
             Request r = it.next();
-            testShortcutRouting(g,simClock,r.getStart(),r.getTarget());
+            //testShortcutRouting(g,simClock,r.getStart(),r.getTarget());
+            Path p3 = ShortcutWithDijkstra.singlePath(g, simClock, r.getStart(), r.getTarget());
+            count4 += p3.getWeight();
         }
         Instant inst5 = Instant.now();
         System.out.println("T1="+ Duration.between(inst1, inst2).toMillis()+",T2="+Duration.between(inst2, inst3).toMillis()+",T3="+Duration.between(inst3,inst4).toMillis()+",T4="+Duration.between(inst4,inst5).toMillis());
