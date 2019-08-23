@@ -76,14 +76,16 @@ public class RequestFileTrans {
         return minNode;
     }
 
-
-
 }
 
 
 class NodePair{
     private String startId;
     private String targetId;
+
+    public NodePair(){
+
+    }
 
     public NodePair(String startId, String targetId){
         this.startId = startId;
