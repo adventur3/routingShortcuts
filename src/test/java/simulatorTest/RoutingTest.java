@@ -101,7 +101,7 @@ public class RoutingTest {
     }
 
     public static void testDijkstra(Graph<RoadNode, RoadEdge> g, SimClock clock, RoadNode e1, RoadNode e2){
-        Path thepath = Dijkstra.singlePath(g, clock, e1, e2);
+        Path thepath = Dijkstra.timeDependentSinglePath(g, clock, e1, e2);
         System.out.println("path:="+thepath.getWeight());
         while(!thepath.isEmpty()) {
             PathSegment pathSegment = thepath.pollPathSegment();
@@ -111,7 +111,7 @@ public class RoutingTest {
     }
 
     public static void testAStar(Graph<RoadNode, RoadEdge> g, SimClock clock, RoadNode e1, RoadNode e2){
-        Path thepath = AStar.singlePath(g, clock, e1, e2);
+        Path thepath = AStar.timeDependentSinglePath(g, clock, e1, e2);
         System.out.println("path:="+thepath.getWeight());
         while(!thepath.isEmpty()) {
             PathSegment pathSegment = thepath.pollPathSegment();
@@ -121,7 +121,7 @@ public class RoutingTest {
     }
 
     public static void testShortcutRouting(Graph<RoadNode, RoadEdge> g, SimClock clock, RoadNode e1, RoadNode e2){
-        Path thepath = ShortcutWithDijkstra.singlePath(g, clock, e1, e2);
+        Path thepath = ShortcutWithDijkstra.timeDependentSinglePath(g, clock, e1, e2);
         //System.out.println("path:="+thepath);
         while(!thepath.isEmpty()) {
             PathSegment pathSegment = thepath.pollPathSegment();

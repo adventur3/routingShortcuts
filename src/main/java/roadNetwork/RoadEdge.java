@@ -11,6 +11,7 @@ public class RoadEdge extends DefaultWeightedEdge implements Serializable {
     private List<Long> weightList;
     private long minWeight;
     private String osm_id;
+    private long length;
 
 
     public RoadEdge(){
@@ -46,5 +47,11 @@ public class RoadEdge extends DefaultWeightedEdge implements Serializable {
         this.osm_id = osm_id;
     }
 
+    public long getLength() {
+        return length;
+    }
 
+    public void setLength(long length) {
+        this.length = length;
+    }
 }

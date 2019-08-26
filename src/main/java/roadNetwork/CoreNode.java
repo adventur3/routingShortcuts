@@ -40,4 +40,17 @@ public class CoreNode implements Serializable {
         }
         return p;
     }
+
+    public Path getPath(CoreNode targetNode){
+        Iterator<CoreEdge> it = this.edgeSet.iterator();
+        Path p = null;
+        while(it.hasNext()){
+            CoreEdge coreEdge = it.next();
+            if(coreEdge.isTargetNode(targetNode)){
+                p = coreEdge.getPath();
+                break;
+            }
+        }
+        return p;
+    }
 }

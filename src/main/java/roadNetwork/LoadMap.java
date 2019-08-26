@@ -99,9 +99,11 @@ public class LoadMap {
             RoadEdge roadEdge = g.getEdge(sRoadNode, eRoadNode);
 
             if(roadEdge==null){
-                long weight = (long)(MillerCoordinate.distance(sRoadNode.getLat(),sRoadNode.getLon(),eRoadNode.getLat(),eRoadNode.getLon())/AStar.estimatedSpeed);
+                long length = (long)MillerCoordinate.distance(sRoadNode.getLat(),sRoadNode.getLon(),eRoadNode.getLat(),eRoadNode.getLon());
+                long weight = (long)(length/AStar.estimatedSpeed);
                 roadEdge=g.addEdge(sRoadNode, eRoadNode);
                 roadEdge.setOsm_id(String.valueOf(start_id));
+                roadEdge.setLength(length);
                 roadEdge.setMinWeight(weight);
                 List<Long> distances=new ArrayList<>();
                 for(int i=0;i<breakPoint;i++){
@@ -117,9 +119,11 @@ public class LoadMap {
             //双向连接
             RoadEdge reverseEdge=g.getEdge(eRoadNode, sRoadNode);
             if(reverseEdge == null) {
-                long weight = (long)(MillerCoordinate.distance(sRoadNode.getLat(),sRoadNode.getLon(),eRoadNode.getLat(),eRoadNode.getLon())/AStar.estimatedSpeed);
+                long length = (long)MillerCoordinate.distance(sRoadNode.getLat(),sRoadNode.getLon(),eRoadNode.getLat(),eRoadNode.getLon());
+                long weight = (long)(length/AStar.estimatedSpeed);
                 reverseEdge = g.addEdge(eRoadNode, sRoadNode);
                 reverseEdge.setOsm_id(String.valueOf(start_id));
+                reverseEdge.setLength(length);
                 reverseEdge.setMinWeight(weight);
                 List<Long> reverseDistances = new ArrayList<>();
                 for (int i = 0; i < breakPoint; i++) {
@@ -160,7 +164,7 @@ public class LoadMap {
                     long start_time = 1546272000000L;
                     for(int minute_id=0;minute_id<breakPoint;minute_id++){
                         start_time += minute_id * 3600000;
-                        Path path= Dijkstra.singlePath(g, start_time, m, n);
+                        Path path= Dijkstra.timeDependentSinglePath(g, start_time, m, n);
                         pathLinkedList.add(path);
                         long distance=path.getWeight();
                         if(minDistance==0){
@@ -171,14 +175,147 @@ public class LoadMap {
                         }
                     }
                     CoreEdge coreEdge=new CoreEdge(m.getCoreNode(),n.getCoreNode(),pathLinkedList,minDistance);
+                    coreEdge.setPath(Dijkstra.singlePath(g, m, n));
                     m.getCoreNode().addEdge(coreEdge);
                 }
             }
         }
     }
 
+//    //构建地图
+//    public static Graph<RoadNode, RoadEdge> initMap() throws Exception
+//    {
+//        //如果之前存了信息，直接读
+//        File file=new File(graphInformation);
+//        if(file.exists()){
+//            System.out.println("Graph loading...");
+//            FileInputStream fileIn = new FileInputStream(graphInformation);
+//            ObjectInputStream in = new ObjectInputStream(fileIn);
+//            Graph<RoadNode, RoadEdge> g = (Graph<RoadNode, RoadEdge>) in.readObject();
+//            in.close();
+//            fileIn.close();
+//
+//            //System.out.println("文件读取结束，开始修改内存");
+//            //loadBelongFile(g);
+//            //System.out.println("内存修改完毕，重写文件");
+//            //将修改后的graph重新存入
+//            //FileOutputStream fileOut =
+//            //        new FileOutputStream(graphInformation);
+//            //ObjectOutputStream out = new ObjectOutputStream(fileOut);
+//            //out.writeObject(g);
+//            //out.close();
+//            //fileOut.close();
+//
+//            //System.out.println("文件重写完毕");
+//
+//
+//            System.out.println("Graph done.");
+//            return g;
+//        }
+//        else{
+//            file.createNewFile();
+//        }
+//
+//        Graph<RoadNode, RoadEdge> g = new DefaultDirectedGraph<RoadNode, RoadEdge>(RoadEdge.class);
+//
+//        //List<RoadNode> roadNodes=new ArrayList();
+//
+//        //将原始图所有的点插入
+//        System.out.println("graph start.");
+//        System.out.println("adding nodes...");
+//        Connection connection=DriverManager.getConnection(URL,USER,PASSWORD);
+//        String sql="select * from node order by id";
+//        Statement statement=connection.createStatement();
+//        ResultSet resultSet=statement.executeQuery(sql);
+//        while(resultSet.next())
+//        {
+//            RoadNode roadNode=new RoadNode();
+//            long id=resultSet.getLong("id");
+//            double lon=resultSet.getDouble("lon");
+//            double lat=resultSet.getDouble("lat");
+//            roadNode.setOsmId(String.valueOf(id));
+//            roadNode.setLon(lon);
+//            roadNode.setLat(lat);
+//
+//            //roadNodes.add(roadNode);
+//            g.addVertex(roadNode);
+//        }
+//        statement.close();
+//        System.out.println("add nodes success.");
+//
+//
+//        System.out.println("adding edges...");
+//        //将原始图所有的边插入
+//        sql="select * from seg_node";
+//        statement=connection.createStatement();
+//        resultSet=statement.executeQuery(sql);
+//        while(resultSet.next())
+//        {
+//            long id=resultSet.getLong("seg_id");
+//            long start=resultSet.getLong("start_id");
+//            long end=resultSet.getLong("end_id");
+//            String idT=String.valueOf(id);
+//            String startId=String.valueOf(start);
+//            String endId=String.valueOf(end);
+//            RoadNode startNode = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals(startId)).findAny().get();
+//            RoadNode endNode = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals(endId)).findAny().get();
+//            if(startNode == null){
+//                System.out.println("start node null");
+//            }
+//            if(endNode == null){
+//                System.out.println("end node null");
+//            }
+//            RoadEdge roadEdge=g.addEdge(startNode, endNode);
+//            roadEdge.setOsm_id(idT);
+//            roadEdge.setWeightList(getTdCostByRelationship(roadEdge.getOsm_id(), connection));
+//            List<Long> weightList = roadEdge.getWeightList();
+//            long minWeight = weightList.get(0);
+//            for(int i=0;i<weightList.size();i++){
+//                if(weightList.get(i)<minWeight){
+//                    minWeight = weightList.get(i);
+//                }
+//            }
+//            roadEdge.setMinWeight(minWeight);
+//        }
+//        statement.close();
+//
+//        System.out.println("add edges success.");
+//
+//        System.out.println("adding supplementary roadEdges...");
+//
+//        //将补充的边插入，以满足图的全联通性
+//        addSupplementaryRoadSegmentEdges(g, connection);
+//
+//        System.out.println("add supplementary roadEdges success.");
+//
+//        connection.close();
+//
+//        System.out.println("adding core information...");
+//        //将coreNode和coreEdge的信息导入
+//        addCoreInformation(g);
+//
+//        System.out.println("add core information success.");
+//
+//        System.out.println("partitioning graph...");
+//        loadBelongFile(g);
+//        System.out.println("partition graph success.");
+//
+//        System.out.println("writing object file...");
+//        //将地图信息序列化存入文件中
+//        FileOutputStream fileOut =
+//                new FileOutputStream(graphInformation);
+//        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+//        out.writeObject(g);
+//        out.close();
+//        fileOut.close();
+//        System.out.println("done.");
+//        return g;
+//    }
+
+
     //构建地图
-    public static Graph<RoadNode, RoadEdge> initMap() throws Exception
+    //the map return the map with atrribute of length
+    public static Graph<RoadNode, RoadEdge> initMap2() throws Exception
     {
         //如果之前存了信息，直接读
         File file=new File(graphInformation);
@@ -189,21 +326,6 @@ public class LoadMap {
             Graph<RoadNode, RoadEdge> g = (Graph<RoadNode, RoadEdge>) in.readObject();
             in.close();
             fileIn.close();
-
-            //System.out.println("文件读取结束，开始修改内存");
-            //loadBelongFile(g);
-            //System.out.println("内存修改完毕，重写文件");
-            //将修改后的graph重新存入
-            //FileOutputStream fileOut =
-            //        new FileOutputStream(graphInformation);
-            //ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            //out.writeObject(g);
-            //out.close();
-            //fileOut.close();
-
-            //System.out.println("文件重写完毕");
-
-
             System.out.println("Graph done.");
             return g;
         }
@@ -241,7 +363,7 @@ public class LoadMap {
 
         System.out.println("adding edges...");
         //将原始图所有的边插入
-        sql="select * from seg_node";
+        sql="select seg_node.seg_id, seg_node.start_id, seg_node.end_id, seg_length.length from seg_node, seg_length where seg_node.seg_id = seg_length.seg_id";
         statement=connection.createStatement();
         resultSet=statement.executeQuery(sql);
         while(resultSet.next())
@@ -249,6 +371,7 @@ public class LoadMap {
             long id=resultSet.getLong("seg_id");
             long start=resultSet.getLong("start_id");
             long end=resultSet.getLong("end_id");
+            long length = resultSet.getLong("length");
             String idT=String.valueOf(id);
             String startId=String.valueOf(start);
             String endId=String.valueOf(end);
@@ -262,6 +385,7 @@ public class LoadMap {
             }
             RoadEdge roadEdge=g.addEdge(startNode, endNode);
             roadEdge.setOsm_id(idT);
+            roadEdge.setLength(length);
             roadEdge.setWeightList(getTdCostByRelationship(roadEdge.getOsm_id(), connection));
             List<Long> weightList = roadEdge.getWeightList();
             long minWeight = weightList.get(0);
@@ -307,6 +431,7 @@ public class LoadMap {
         return g;
     }
 
+
     /*
      * 将所属core信息加载进入节点中，没有的则选取最近core冒充
      * @param g
@@ -349,7 +474,7 @@ public class LoadMap {
 //		long timeEnd=System.currentTimeMillis();
 //		long cost=timeEnd-timeStart;
 //		System.out.println("init cost:"+cost+"ms");
-        LoadMap.initMap();
+        LoadMap.initMap2();
     }
 
 }

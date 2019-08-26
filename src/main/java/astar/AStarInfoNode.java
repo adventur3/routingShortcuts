@@ -28,26 +28,38 @@ public class AStarInfoNode {
 //        this.arrivalTime = startTime;
 //    }
 
-    public AStarInfoNode(long startTime, RoadNode roadNode, RoadNode target){
+    public AStarInfoNode(long startTime, RoadNode roadNode, RoadNode target, long estimatedWeight){
         this.roadNode = roadNode;
         this.parent = null;
         this.settedFlag = false;
         this.exploredFlag = false;
         this.weightFromParent = 0;
         this.realWeight = 0;
-        this.estimatedWeight = (long) (MillerCoordinate.distance(roadNode, target)/AStar.estimatedSpeed);
+        this.estimatedWeight = estimatedWeight;
         this.weight = this.realWeight + this.estimatedWeight;
         this.arrivalTime = startTime + weightFromParent;
     }
 
-    public AStarInfoNode(RoadNode roadNode, AStarInfoNode parent, RoadNode target, long weightFromParent){
+//    public AStarInfoNode(RoadNode roadNode, RoadNode target){
+//        this.roadNode = roadNode;
+//        this.parent = null;
+//        this.settedFlag = false;
+//        this.exploredFlag = false;
+//        this.weightFromParent = 0;
+//        this.realWeight = 0;
+//        this.estimatedWeight = (long) MillerCoordinate.distance(roadNode, target);
+//        this.weight = this.realWeight + this.estimatedWeight;
+//        this.arrivalTime = 0;
+//    }
+
+    public AStarInfoNode(RoadNode roadNode, AStarInfoNode parent, RoadNode target, long weightFromParent, long estimatedWeight){
         this.roadNode = roadNode;
         this.parent = parent;
         this.settedFlag = false;
         this.exploredFlag = false;
         this.weightFromParent = weightFromParent;
         this.realWeight = parent.getRealWeight() + weightFromParent;
-        this.estimatedWeight = (long) (MillerCoordinate.distance(roadNode, target)/AStar.estimatedSpeed);
+        this.estimatedWeight = estimatedWeight;
         this.weight = this.realWeight + this.estimatedWeight;
         this.arrivalTime = parent.getArrivalTime() + weightFromParent;
     }

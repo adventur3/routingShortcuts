@@ -8,6 +8,7 @@ public class CoreEdge implements Serializable {
     private CoreNode start;
     private CoreNode target;
     private LinkedList<Path> timeDependentPathList;
+    private Path path;
     private long minWeight;
 
     public CoreEdge(CoreNode start, CoreNode target) {
@@ -44,5 +45,13 @@ public class CoreEdge implements Serializable {
 
     public long getMinWeight() {
         return this.minWeight;
+    }
+
+    public Path getPath() {
+        return path;
+    }
+
+    public void setPath(Path path) {
+        this.path = path;
     }
 }
