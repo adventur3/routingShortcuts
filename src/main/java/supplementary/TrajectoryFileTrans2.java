@@ -83,6 +83,7 @@ public class TrajectoryFileTrans2 {
         System.out.println("count_trajectory=" + count_trajectory);
         System.out.println("count_weights= " + count_weights);
         System.out.println("count_zero = " + count_zero);
+        System.out.println("count_distance = " + count+count_distance);
         File outputfile = new File(OUT_FILE);
         if(!outputfile.exists()) {
             outputfile.createNewFile();
