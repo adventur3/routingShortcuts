@@ -52,7 +52,8 @@ public class Simulator {
         while(it.hasNext()){
             Request r = it.next();
 //            testDijkstra(g,simClock,r.getStart(),r.getTarget());
-            Path p1 = Dijkstra.timeDependentSinglePath(g, simClock, r.getStart(), r.getTarget());
+//            Path p1 = Dijkstra.timeDependentSinglePath(g, simClock, r.getStart(), r.getTarget());
+            Path p1 = Dijkstra.singlePath(g, r.getStart(), r.getTarget());
             count2 += p1.getWeight();
         }
         Instant inst3 = Instant.now();
@@ -60,7 +61,8 @@ public class Simulator {
         while(it.hasNext()){
             Request r = it.next();
 //            testAStar(g,simClock,r.getStart(),r.getTarget());
-            Path p2 = AStar.timeDependentSinglePath(g, simClock, r.getStart(), r.getTarget());
+//            Path p2 = AStar.timeDependentSinglePath(g, simClock, r.getStart(), r.getTarget());
+            Path p2 = AStar.singlePath(g, r.getStart(), r.getTarget());
             count3 += p2.getWeight();
         }
         Instant inst4 = Instant.now();
@@ -68,7 +70,8 @@ public class Simulator {
         while(it.hasNext()){
             Request r = it.next();
 //            testShortcutRouting(g,simClock,r.getStart(),r.getTarget());
-            Path p3 = ShortcutWithDijkstra.timeDependentSinglePath(g, simClock, r.getStart(), r.getTarget());
+//            Path p3 = ShortcutWithDijkstra.timeDependentSinglePath(g, simClock, r.getStart(), r.getTarget());
+            Path p3 = ShortcutWithDijkstra.singlePath(g, r.getStart(), r.getTarget());
             count4 += p3.getWeight();
         }
         Instant inst5 = Instant.now();

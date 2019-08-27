@@ -42,7 +42,7 @@ public class AStar {
     public static Path singlePath(Graph<RoadNode, RoadEdge> g, RoadNode start, RoadNode target) {
         Map<String, AStarInfoNode> infoNodes=new HashMap<String,AStarInfoNode>();  //为了根据roadNode找到infoNode
         LinkedList<AStarInfoNode> priorityQueue = new LinkedList<AStarInfoNode>();
-        long estimatedWeight = (long) MillerCoordinate.distance(start, target);
+        long estimatedWeight = (long) (MillerCoordinate.distance(start, target) * 0.90);
         AStarInfoNode startInfo = new AStarInfoNode(0, start, target, estimatedWeight);
         infoNodes.put(start.getOsmId(),startInfo);
         priorityQueue.add(startInfo);
@@ -124,7 +124,7 @@ public class AStar {
                 }
             }else{
                 weightFromParent = nextEdge.getLength();
-                long estimatedWeight = (long) MillerCoordinate.distance(nextNode, target);
+                long estimatedWeight = (long) (MillerCoordinate.distance(nextNode, target)*0.90);
                 AStarInfoNode nextInfoNode = new AStarInfoNode(nextNode, inode, target, weightFromParent, estimatedWeight);
                 infoNodes.put(nextNode.getOsmId(),nextInfoNode);
                 nextInfoNode.setExplored();
