@@ -44,6 +44,7 @@ public class TrajectoryFileTrans2 {
                 if(count_pair == 0){
                     nodePair = new NodePairWithTime();
                     RoadNode startNode = RequestFileTrans.findNodeByCoord(g, Double.valueOf(s[2]), Double.valueOf(s[3]));
+                    lastNode = startNode;
                     distance_temp = 0;
                     if(startNode!=null) {
                         nodePair.setStartId(startNode.getOsmId());
@@ -66,6 +67,7 @@ public class TrajectoryFileTrans2 {
                             }
                             distance_temp += getDistance(g, lastNode,targetNode);
                             count_distance += distance_temp;
+                            System.out.println("distance_temp:" + distance_temp);
                             count_weights += w;
                         }
                     }
@@ -75,6 +77,14 @@ public class TrajectoryFileTrans2 {
                 }
             }
             RoadNode theNode = RequestFileTrans.findNodeByCoord(g, Double.valueOf(s[2]), Double.valueOf(s[3]));
+            if(theNode == null){
+                System.out.println("theNode null");
+                System.out.println(lineTxt);
+            }
+            if(lastNode == null){
+                System.out.println("lastNode null");
+                System.out.println(lineTxt);
+            }
             distance_temp += getDistance(g, lastNode, theNode);
             lastNode = theNode;
             count ++;
