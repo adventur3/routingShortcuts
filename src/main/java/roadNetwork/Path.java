@@ -24,10 +24,21 @@ public class Path implements Serializable {
         this.weight += pathSegment.getWeight();
     }
 
+    public void addPathSegment(PathSegment pathSegment) {
+        segmentList.add(pathSegment);
+        this.weight += pathSegment.getWeight();
+    }
+
     public PathSegment pollPathSegment() {
         PathSegment pathSegment = segmentList.poll();
         this.weight -= pathSegment.getWeight();
         return pathSegment;
+    }
+
+    public RoadNode getTargetNode(){
+        PathSegment ps = segmentList.getLast();
+        RoadNode target = ps.getEndNode();
+        return target;
     }
 
     public void setWeight(long weight){
