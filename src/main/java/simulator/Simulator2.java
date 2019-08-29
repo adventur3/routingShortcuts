@@ -87,7 +87,7 @@ public class Simulator2 {
         System.out.println("dijkstra weight:" + count1);
         System.out.println("astar weight:" + count2);
         System.out.println("shortcutwithdijkstra weight:" + count3);
-        System.out.println("shortcutwithastar:" + count4);
+        System.out.println("shortcutwithastar weight:" + count4);
         System.out.println("输出完成！");
 
 //		Instant inst1 = Instant.now();
