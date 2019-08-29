@@ -11,6 +11,9 @@ import java.util.*;
 public class ShortcutsWithAStar {
 
     public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, SimClock simClock, RoadNode start, RoadNode target){
+        if(start == target){
+            return null;
+        }
         RoadNode startBelong = start.getBelongTo();
         RoadNode targetBelong = target.getBelongTo();
         if(startBelong == targetBelong){
@@ -19,9 +22,6 @@ public class ShortcutsWithAStar {
         Path p1 = null;
         Path p2 = null;
         Path p3 = null;
-        if(start == target){
-            return null;
-        }
         if(!start.isCore()){
             p1 = step1(g, simClock, start, target);
             startBelong = p1.getTargetNode();

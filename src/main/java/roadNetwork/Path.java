@@ -41,6 +41,12 @@ public class Path implements Serializable {
         return target;
     }
 
+    public RoadNode getStartNode(){
+        PathSegment ps = segmentList.getFirst();
+        RoadNode start = ps.getStartNode();
+        return start;
+    }
+
     public void setWeight(long weight){
         this.weight = weight;
     }
