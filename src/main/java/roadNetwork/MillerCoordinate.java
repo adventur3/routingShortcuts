@@ -17,10 +17,16 @@ public class MillerCoordinate {
         return distance(n1,n2);
     }
 
+    /*
+        return measurement: m
+     */
     public static double distance(RoadNode n1,RoadNode n2){
         return distance(n1.getLat(),n1.getLon(),n2.getLat(),n2.getLon());
     }
 
+    /*
+        return measurement: m
+     */
     public static double distance(double lat1,double lon1,double lat2,double lon2){
         double[] c1=MillierConvertion(lat1,lon1);
         double[] c2=MillierConvertion(lat2,lon2);

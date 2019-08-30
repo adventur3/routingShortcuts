@@ -1,5 +1,6 @@
 package roadNetwork;
 
+import dijkstra.Dijkstra;
 import org.dom4j.DocumentException;
 import org.jgrapht.Graph;
 
@@ -45,6 +46,10 @@ public class PartitionOper {
         }
     }
 
+
+    /*
+    find the nearest core node by miller distance
+     */
     public  RoadNode findNearCore(RoadNode roadNode, Graph<RoadNode, RoadEdge> g){
         if(roadNode.isCore()){
             return roadNode;
@@ -61,6 +66,40 @@ public class PartitionOper {
                 nearCore=coreId;
                 shortestDis=temp_distance;
             }
+        }
+        String theCoreId = nearCore;
+        return g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals(theCoreId)).findAny().get();
+        //return GraphUtil.findRoadNodeById(graph,nearCore);
+    }
+
+    /*
+    find the nearest core node by dijkstra distance
+     */
+    public  RoadNode findNearCore2(RoadNode roadNode, Graph<RoadNode, RoadEdge> g){
+        if(roadNode.isCore()){
+            return roadNode;
+        }
+        if(belongingMap.get(roadNode.getOsmId())!=null){
+            return g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals(belongingMap.get(roadNode.getOsmId()))).findAny().get();
+            //return GraphUtil.findRoadNodeById(graph,belongingMap.get(id));
+        }
+        double shortestDis=999999999;
+        String nearCore="";
+        for(String coreId:coreSet){
+            //double temp_distance = MillerCoordinate.distance(roadNode.getOsmId(),coreId,g);
+            RoadNode coreNode = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals(coreId)).findAny().get();
+            Path thePath = Dijkstra.singlePath(g, roadNode, coreNode);
+            if(thePath == null){
+                continue;
+            }
+            double temp_distance = thePath.getWeight();
+            if(temp_distance<shortestDis){
+                nearCore=coreId;
+                shortestDis=temp_distance;
+            }
+        }
+        if(nearCore == ""){
+            findNearCore(roadNode,g);
         }
         String theCoreId = nearCore;
         return g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals(theCoreId)).findAny().get();

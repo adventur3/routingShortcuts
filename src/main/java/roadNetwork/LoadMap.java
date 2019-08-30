@@ -442,7 +442,7 @@ public class LoadMap {
         PartitionOper partitionOper = new PartitionOper();
 
         for(RoadNode roadNode:g.vertexSet()){
-            RoadNode core=partitionOper.findNearCore(roadNode,g);
+            RoadNode core=partitionOper.findNearCore2(roadNode,g);
             roadNode.setBelongTo(core);
         }
     }
