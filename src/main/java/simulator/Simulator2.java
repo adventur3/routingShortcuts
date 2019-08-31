@@ -76,7 +76,9 @@ public class Simulator2 {
         while(it.hasNext()){
             Request r = it.next();
             Path p4 = ShortcutsWithAStar.timeDependentSinglePath(g, simClock, r.getStart(), r.getTarget());
-            count4 += p4.getWeight();
+            if(p4!=null) {
+                count4 += p4.getWeight();
+            }
         }
         Instant inst6 = Instant.now();
         System.out.println("jgrapt dijkstra timecost:"+ Duration.between(inst1, inst2).toMillis());
