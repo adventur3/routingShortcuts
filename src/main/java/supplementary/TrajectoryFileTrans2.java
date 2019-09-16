@@ -10,6 +10,9 @@ import java.io.*;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+/*
+distance is length
+ */
 public class TrajectoryFileTrans2 {
     private static String REQUEST_FILE = "experimentData/2014-07-01-01_trans_2019-08-21-16-09-42_extraction.txt";
     private static String OUT_FILE = "experimentData/trajectoryRequests.txt";
