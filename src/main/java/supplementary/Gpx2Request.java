@@ -51,7 +51,6 @@ public class Gpx2Request {
                     Iterator<Element> iterator = root.elementIterator();
                     while(iterator.hasNext()){
                         Element e = iterator.next();
-                        System.out.println(e.getName());
                         if(e.getName().equals("trk")){
                             Iterator<Element> iterator_trk = e.elementIterator();
                             while(iterator_trk.hasNext()){
@@ -97,6 +96,7 @@ public class Gpx2Request {
                                                 RoadNode tempNode = RequestFileTrans.findNodeByCoord(g, lon, lat);
                                                 long temp_distance = getDistance(g, lastNode,tempNode);
                                                 count_distance += temp_distance;
+                                                System.out.println(temp_distance);
                                                 nodePair.setTargetId(tempNode.getOsmId());
                                                 long temp_time = 0;
                                                 Iterator<Element> trkpt_it = e_trkpt.elementIterator();
@@ -107,6 +107,7 @@ public class Gpx2Request {
                                                     }
                                                 }
                                                 nodePair.setTargetTime(temp_time);
+                                                lastNode = tempNode;
                                             }
                                         }
 
@@ -118,6 +119,7 @@ public class Gpx2Request {
                     if(nodePair.getTargetTime()>nodePair.getStartTime() && nodePair.getTargetTime()!=0 && nodePair.getStartTime() != 0 ){
                         count_weight = count_weight + (nodePair.getTargetTime() - nodePair.getStartTime());
                         nodePairs.add(nodePair);
+                        System.out.println("starttime,targettime" + nodePair.getStartTime()+ "," + nodePair.getTargetTime());
                     }else{
                         System.out.println("error: start time or target time error");
                         return;
@@ -146,10 +148,11 @@ public class Gpx2Request {
         return Dijkstra.singlePath(g, start, target).getWeight();
     }
 
-    public static long transTime(String s) throws ParseException {
-        String res;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ssZ");
-        Date date = simpleDateFormat.parse(s);
+    public static long transTime(String time_str) throws ParseException {
+        String[] time_arr = time_str.split("T");
+        String t = time_arr[0] +" " + time_arr[1].split("Z")[0];
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = simpleDateFormat.parse(t);
         long ts = date.getTime();
         return Long.valueOf(ts);
     }
