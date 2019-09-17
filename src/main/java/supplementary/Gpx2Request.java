@@ -7,6 +7,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.jgrapht.Graph;
 import roadNetwork.LoadMap;
+import roadNetwork.MillerCoordinate;
 import roadNetwork.RoadEdge;
 import roadNetwork.RoadNode;
 
@@ -145,7 +146,8 @@ public class Gpx2Request {
 
     }
     public static long getDistance(Graph<RoadNode, RoadEdge> g, RoadNode start, RoadNode target){
-        return Dijkstra.singlePath(g, start, target).getWeight();
+        //return Dijkstra.singlePath(g, start, target).getWeight();
+        return (long)MillerCoordinate.distance(start,target);
     }
 
     public static long transTime(String time_str) throws ParseException {
