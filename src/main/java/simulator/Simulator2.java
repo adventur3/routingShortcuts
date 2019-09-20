@@ -76,7 +76,8 @@ public class Simulator2 {
         it = requestLoader.getRequestList().iterator();
         while(it.hasNext()){
             Request r = it.next();
-            Path p4 = ShortcutsWithAStar.timeDependentSinglePath(g, simClock, r.getStart(), r.getTarget());
+            //Path p4 = ShortcutsWithAStar.timeDependentSinglePath(g, simClock, r.getStart(), r.getTarget());
+            Path p4 = ShortcutsWithAStar.singlePath(g, r.getStart(), r.getTarget());
             if(p4!=null) {
                 count4 += p4.getWeight();
             }
