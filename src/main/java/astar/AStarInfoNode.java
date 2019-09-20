@@ -58,10 +58,19 @@ public class AStarInfoNode {
         this.settedFlag = false;
         this.exploredFlag = false;
         this.weightFromParent = weightFromParent;
-        this.realWeight = parent.getRealWeight() + weightFromParent;
+        if(parent==null){
+            this.realWeight = weightFromParent;
+        }else{
+            this.realWeight = parent.getRealWeight() + weightFromParent;
+        }
         this.estimatedWeight = estimatedWeight;
         this.weight = this.realWeight + this.estimatedWeight;
-        this.arrivalTime = parent.getArrivalTime() + weightFromParent;
+        if(parent==null){
+            this.arrivalTime = 0;
+        }else{
+            this.arrivalTime = parent.getArrivalTime() + weightFromParent;
+        }
+
     }
 
     public RoadNode getRoadNode() {
