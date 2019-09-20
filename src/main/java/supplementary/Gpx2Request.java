@@ -14,14 +14,11 @@ import roadNetwork.RoadNode;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Gpx2Request {
 
-    private static String GPX_BASE_PATH = "experimentData/gpxDataTest";
+    private static String GPX_BASE_PATH = "experimentData/gpxData";
     private static String OUT_FILE = "experimentData/gpxTrajRequests.txt";
     private static String GRAPH_FILE = "experimentData/core_choose_nums=4000_core_nums=50_graph.ser";
 
@@ -29,6 +26,7 @@ public class Gpx2Request {
         Graph<RoadNode, RoadEdge> g = LoadMap.getMap(GRAPH_FILE);
         LinkedList<NodePairWithTime> nodePairs = new LinkedList<NodePairWithTime>();
         long count_distance = 0;
+        long count_distance_temp = 0;
         long count_weight = 0;
         NodePairWithTime nodePair = null;
         File file = new File(GPX_BASE_PATH);
@@ -41,7 +39,7 @@ public class Gpx2Request {
             String[] filelist = file.list();
             for (int i = 0; i < filelist.length; i++) {
                 File readfile = new File(GPX_BASE_PATH + File.separator + filelist[i]);
-                if (!readfile.isDirectory() && !readfile.getName().equals(".DS_Store") ) {
+                if (!readfile.isDirectory() && !readfile.getName().equals(".DS_Store") && !readfile.getName().equals("._.DS_Store") ) {
                     SAXReader reader = new SAXReader();
                     Document document = reader.read(readfile);
                     //get the root element of the xml file
@@ -85,6 +83,7 @@ public class Gpx2Request {
                                                 }
                                                 RoadNode startNode = RequestFileTrans.findNodeByCoord(g, lon, lat);
                                                 long distance_temp = 0;
+                                                count_distance_temp = 0;
                                                 nodePair.setStartId(startNode.getOsmId());
                                                 if(start_time==0){
                                                     System.out.println("error:starttime 0");
@@ -96,8 +95,7 @@ public class Gpx2Request {
                                             }else{
                                                 RoadNode tempNode = RequestFileTrans.findNodeByCoord(g, lon, lat);
                                                 long temp_distance = getDistance(g, lastNode,tempNode);
-                                                count_distance += temp_distance;
-                                                System.out.println(temp_distance);
+                                                count_distance_temp += temp_distance;
                                                 nodePair.setTargetId(tempNode.getOsmId());
                                                 long temp_time = 0;
                                                 Iterator<Element> trkpt_it = e_trkpt.elementIterator();
@@ -117,10 +115,12 @@ public class Gpx2Request {
                             }
                         }
                     }
-                    if(nodePair.getTargetTime()>nodePair.getStartTime() && nodePair.getTargetTime()!=0 && nodePair.getStartTime() != 0 ){
+                    System.out.println(readfile.getName());
+                    System.out.println("starttime=" + nodePair.getStartTime()+", targettime = " + nodePair.getTargetTime());
+                    if(nodePair.getTargetTime()>=nodePair.getStartTime() && nodePair.getTargetTime()!=0 && nodePair.getStartTime() != 0 ){
                         count_weight = count_weight + (nodePair.getTargetTime() - nodePair.getStartTime());
+                        count_distance += count_distance_temp;
                         nodePairs.add(nodePair);
-                        System.out.println("starttime,targettime" + nodePair.getStartTime()+ "," + nodePair.getTargetTime());
                     }else{
                         System.out.println("error: start time or target time error");
                         return;
@@ -158,4 +158,5 @@ public class Gpx2Request {
         long ts = date.getTime();
         return Long.valueOf(ts);
     }
+
 }

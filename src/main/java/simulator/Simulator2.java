@@ -19,7 +19,8 @@ import java.util.Iterator;
 public class Simulator2 {
 
     private static String GRAPH_FILE = "experimentData/core_choose_nums=4000_core_nums=50_graph.ser";
-    private static String REQUEST_FILE = "experimentData/trajectoryRequests.txt";
+    //private static String REQUEST_FILE = "experimentData/trajectoryRequests.txt";
+    private static String REQUEST_FILE = "experimentData/gpxTrajRequests.txt";
 
     public static void main(String[] args) throws IOException, DocumentException, java.lang.Exception {
 
@@ -49,8 +50,8 @@ public class Simulator2 {
         while(it.hasNext()){
             Request r = it.next();
 //            testDijkstra(g,simClock,r.getStart(),r.getTarget());
-            Path p1 = Dijkstra.timeDependentSinglePath(g, simClock, r.getStart(), r.getTarget());
-//            Path p1 = Dijkstra.singlePath(g, r.getStart(), r.getTarget());
+//            Path p1 = Dijkstra.timeDependentSinglePath(g, simClock, r.getStart(), r.getTarget());
+            Path p1 = Dijkstra.singlePath(g, r.getStart(), r.getTarget());
             count1 += p1.getWeight();
         }
         Instant inst3 = Instant.now();
@@ -58,8 +59,8 @@ public class Simulator2 {
         while(it.hasNext()){
             Request r = it.next();
 //            testAStar(g,simClock,r.getStart(),r.getTarget());
-            Path p2 = AStar.timeDependentSinglePath(g, simClock, r.getStart(), r.getTarget());
-//            Path p2 = AStar.singlePath(g, r.getStart(), r.getTarget());
+//            Path p2 = AStar.timeDependentSinglePath(g, simClock, r.getStart(), r.getTarget());
+            Path p2 = AStar.singlePath(g, r.getStart(), r.getTarget());
             count2 += p2.getWeight();
         }
         Instant inst4 = Instant.now();
@@ -67,8 +68,8 @@ public class Simulator2 {
         while(it.hasNext()){
             Request r = it.next();
 //            testShortcutRouting(g,simClock,r.getStart(),r.getTarget());
-            Path p3 = ShortcutWithDijkstra.timeDependentSinglePath(g, simClock, r.getStart(), r.getTarget());
-//            Path p3 = ShortcutWithDijkstra.singlePath(g, r.getStart(), r.getTarget());
+//            Path p3 = ShortcutWithDijkstra.timeDependentSinglePath(g, simClock, r.getStart(), r.getTarget());
+            Path p3 = ShortcutWithDijkstra.singlePath(g, r.getStart(), r.getTarget());
             count3 += p3.getWeight();
         }
         Instant inst5 = Instant.now();
