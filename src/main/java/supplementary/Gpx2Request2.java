@@ -46,6 +46,7 @@ public class Gpx2Request2 {
                     }
                 }
             }
+            System.out.println("count= " + count);
             System.out.println("count_weight= " + count_weight);
             System.out.println("count_distance = " + count_distance);
             File outputfile = new File(OUT_FILE);
