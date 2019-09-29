@@ -16,6 +16,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/*
+
+将gpx轨迹映射到路网上，其中轨迹的距离长度为由gpx文件里的gps坐标计算
+
+ */
 public class Gpx2Request {
 
     private static String GPX_BASE_PATH = "experimentData/gpxData";
