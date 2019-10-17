@@ -99,9 +99,13 @@ public class TrajectoryMapping {
             int roadNodeListSize = roadNodeList.size();
             for(int i=0; i<roadNodeListSize; i++){
                 candidateNode = roadNodeList.get(i);
-                Path path = findConnectedPath(g, candidateNode, candidateList);
-                if(path!=null){
-                    return path;
+                if(!candidateList.isEmpty()) {
+                    Path path = findConnectedPath(g, candidateNode, candidateList);
+                    if (path != null) {
+                        return path;
+                    }
+                }else{
+                    return null;
                 }
             }
         }else{
@@ -134,7 +138,7 @@ public class TrajectoryMapping {
 
     public static LinkedList<RoadNode> findNearestNodes(Graph<RoadNode, RoadEdge> g, double lon, double lat){
         LinkedList<RoadNode> roadNodeList = new LinkedList<RoadNode>();
-        double limitDistance = 50;
+        double limitDistance = 100;
         Set<RoadNode> nodeSet = g.vertexSet();
         Iterator<RoadNode> it = nodeSet.iterator();
         double minDistance = 99999999;
