@@ -1,6 +1,5 @@
 package supplementary;
 
-
 import org.jgrapht.Graph;
 import roadNetwork.LoadMap;
 import roadNetwork.RoadEdge;
@@ -9,9 +8,7 @@ import java.io.*;
 import java.util.*;
 
 /*
-
-
-
+将gpx轨迹映射到路网上, 轨迹距离长度由TrajectoryMapping计算
  */
 public class Gpx2Request2 {
 

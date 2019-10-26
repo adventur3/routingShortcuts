@@ -13,7 +13,7 @@ public class AStarInfoNode {
     private long weightFromParent;	//the distance(time) from parent node, measurement: ms
     private long realWeight;				//the distance(time) from start node
     private long estimatedWeight;    // the estimated weight(time) from target node
-    private long weight;
+    private long weight;            //realWeight+estimatedWeight
     private long arrivalTime;			//the time when arrive at this node
 
 //    public AStarInfoNode(long startTime, RoadNode roadNode){
