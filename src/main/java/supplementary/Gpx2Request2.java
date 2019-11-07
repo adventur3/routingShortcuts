@@ -22,6 +22,7 @@ public class Gpx2Request2 {
         long count_distance = 0;
         long count_weight = 0;
         long count = 0;
+        long countFile = 0;
         File file = new File(GPX_BASE_PATH);
         if (!file.isDirectory()) {
             System.out.println("为文件或不存在");
@@ -33,8 +34,11 @@ public class Gpx2Request2 {
             for (int i = 0; i < filelist.length; i++) {
                 File readfile = new File(GPX_BASE_PATH + File.separator + filelist[i]);
                 if (!readfile.isDirectory() && !readfile.getName().equals(".DS_Store") && !readfile.getName().equals("._.DS_Store") ) {
+                    countFile ++;
+                    System.out.println("countFile="+countFile);
                     TrajectoryMappingResult result = TrajectoryMapping.mapping(readfile, g);
                     if(result != null){
+                        System.out.println("one trajectory find!");
                         count ++;
                         count_distance += result.getPath().getWeight();
                         count_weight += (result.getEndTime() - result.getStartTime());

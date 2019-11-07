@@ -20,7 +20,7 @@ public class Simulator2 {
 
     private static String GRAPH_FILE = "experimentData/core_choose_nums=4000_core_nums=50_graph.ser";
     //private static String REQUEST_FILE = "experimentData/trajectoryRequests.txt";
-    private static String REQUEST_FILE = "experimentData/gpxTrajRequests.txt";
+    private static String REQUEST_FILE = "experimentData/gpxTrajRequests2.txt";
 
     public static void main(String[] args) throws IOException, DocumentException, java.lang.Exception {
 
@@ -31,8 +31,8 @@ public class Simulator2 {
         RequestLoader requestLoader = new RequestLoader();
         requestLoader.loadRequest(REQUEST_FILE, g);
 
-        RoadNode e1 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("1881181356")).findAny().get();
-        RoadNode e2 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("2592412682")).findAny().get();
+        //RoadNode e1 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("1881181356")).findAny().get();
+        //RoadNode e2 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("2592412682")).findAny().get();
 
         long count1=0;
         long count2=0;

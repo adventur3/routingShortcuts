@@ -50,4 +50,9 @@ public class MillerCoordinate {
         result[0]=x; result[1]=y;
         return result;
     }
+
+    public static void main(String[] args){
+        double distance = MillerCoordinate.distance(24.489882,118.096488,24.462836,118.075469);
+        System.out.println(distance);
+    }
 }
