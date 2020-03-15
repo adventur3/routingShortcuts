@@ -53,6 +53,7 @@ public class DoPartition {
                 RoadNode coreNode = entry.getKey();
                 String coreId = coreNode.getOsmId();
                 if(!finishFlag.get(coreId)){
+                    System.out.println("if(!finishFlag.get(coreId))");
                     PriorityQueue<TempNode> queue = entry.getValue();
                     RoadNode setNode = null;
                     while(setNode==null && !queue.isEmpty()){
