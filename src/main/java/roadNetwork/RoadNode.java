@@ -87,6 +87,7 @@ public class RoadNode implements Serializable {
     public boolean setCoreNode(CoreNode coreNode) {
         if (this.coreFlag) {
             this.coreNode = coreNode;
+            this.belongTo = this;
             return true;
         } else {
             return false;
