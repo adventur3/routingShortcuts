@@ -57,6 +57,7 @@ public class DoPartition {
                     PriorityQueue<TempNode> queue = entry.getValue();
                     RoadNode setNode = null;
                     while(setNode==null && !queue.isEmpty()){
+                        System.out.println("while(setNode==null && !queue.isEmpty())");
                         TempNode tempNode = queue.poll();
                         if(tempNode.getRoadNode().getBelongTo()==null){
                             setNode = tempNode.getRoadNode();
@@ -64,6 +65,7 @@ public class DoPartition {
                             addOutgoingNeighbor(g, queue, setNode);
                             int num = numMap.get(coreId);
                             numMap.put(coreId, num+1);
+                            break;
                         }
                     }
                     if(setNode == null){
