@@ -45,7 +45,7 @@ public class DoPartition {
         outgoingInit(g,coreNodes,map);
         for(Map.Entry<RoadNode, PriorityQueue<TempNode>> entry:map.entrySet()){
             String id = entry.getKey().getOsmId();
-            numMap.put(id, 1);
+            numMap.put(id, 0);
             finishFlag.put(id, false);
         }
         while(!isFinish(finishFlag)){
@@ -53,13 +53,11 @@ public class DoPartition {
                 RoadNode coreNode = entry.getKey();
                 String coreId = coreNode.getOsmId();
                 if(!finishFlag.get(coreId)){
-                    System.out.println("if(!finishFlag.get(coreId))");
                     PriorityQueue<TempNode> queue = entry.getValue();
                     RoadNode setNode = null;
                     while(setNode==null && !queue.isEmpty()){
-                        System.out.println("while(setNode==null && !queue.isEmpty())");
                         TempNode tempNode = queue.poll();
-                        if(tempNode.getRoadNode().getBelongTo()==null){
+                        if(tempNode.getRoadNode().getBelongTo()==null ){
                             setNode = tempNode.getRoadNode();
                             setNode.setBelongTo(coreNode);
                             addOutgoingNeighbor(g, queue, setNode);
@@ -76,10 +74,15 @@ public class DoPartition {
         }
 
         System.out.println(numMap);
+        int totalNum = 0;
+        for(Map.Entry<String, Integer> entry:numMap.entrySet()){
+            totalNum += entry.getValue();
+        }
+        System.out.println("toatalNum="+totalNum+",vertexNum="+g.vertexSet().size());
         //write partition infomation to file
         FileWriter writer=new FileWriter(fileName);
         for(RoadNode node:g.vertexSet()){
-            writer.write(node.getOsmId()+":"+node.getBelongTo().getOsmId());
+            writer.write(node.getOsmId()+":"+node.getBelongTo().getOsmId()+"\n");
         }
         writer.close();
     }
