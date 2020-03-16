@@ -21,6 +21,7 @@ public class DoPartition {
     public static String graphInformation="experimentData/temp_graph.ser";
     public static String coreNodeFile="experimentData/core_choose_nums="+core_choose_nums+"_core_nums="+core_nums+".txt";
     public static String outgoingFile="experimentData/outgoingBelong.txt";
+    public static String incomingFile="experimentData/incomingBelong.txt";
 
     static Comparator<TempNode> cmp = new Comparator<TempNode>() {
         public int compare(TempNode e1, TempNode e2) {
@@ -36,13 +37,14 @@ public class DoPartition {
         //set core nodes
         List<RoadNode> coreNodes = setCoreNodes(g, coreInfo);
         outgoingPartition(g, coreNodes, outgoingFile);
+        incomingPartition(g, coreNodes, incomingFile);
     }
 
     public static void outgoingPartition(Graph<RoadNode, RoadEdge> g, List<RoadNode> coreNodes, String fileName) throws Exception{
         Map<RoadNode, PriorityQueue<TempNode>> map = new HashMap<RoadNode, PriorityQueue<TempNode>>();
         Map<String, Integer> numMap = new HashMap<String, Integer>();
         Map<String, Boolean> finishFlag = new HashMap<String, Boolean>();
-        outgoingInit(g,coreNodes,map);
+        priQueueInit(g,coreNodes,map);
         for(Map.Entry<RoadNode, PriorityQueue<TempNode>> entry:map.entrySet()){
             String id = entry.getKey().getOsmId();
             numMap.put(id, 0);
@@ -72,40 +74,18 @@ public class DoPartition {
                 }
             }
         }
-
         System.out.println(numMap);
         int totalNum = 0;
         for(Map.Entry<String, Integer> entry:numMap.entrySet()){
             totalNum += entry.getValue();
         }
-        System.out.println("toatalNum="+totalNum+",vertexNum="+g.vertexSet().size());
+        System.out.println("outgoingPartition:toatalNum="+totalNum+",vertexNum="+g.vertexSet().size());
         //write partition infomation to file
         FileWriter writer=new FileWriter(fileName);
         for(RoadNode node:g.vertexSet()){
             writer.write(node.getOsmId()+":"+node.getBelongTo().getOsmId()+"\n");
         }
         writer.close();
-    }
-
-    public static boolean isFinish(Map<String, Boolean> finishFlag){
-        for(Map.Entry<String, Boolean> entry:finishFlag.entrySet()){
-            Boolean flag = entry.getValue();
-            if(flag == false){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static void outgoingInit(Graph<RoadNode, RoadEdge> g, List<RoadNode> coreNodes, Map <RoadNode, PriorityQueue<TempNode>> map){
-        Iterator<RoadNode> it = coreNodes.iterator();
-        while(it.hasNext()){
-            RoadNode start = it.next();
-            PriorityQueue<TempNode> nodeList = new PriorityQueue<TempNode>(cmp);
-            TempNode tempNode = new TempNode(start,0);
-            nodeList.add(tempNode);
-            map.put(start,nodeList);
-        }
     }
 
     public static PriorityQueue<TempNode> addOutgoingNeighbor(Graph<RoadNode, RoadEdge> g, PriorityQueue<TempNode> nodeList, RoadNode n){
@@ -141,6 +121,110 @@ public class DoPartition {
             }
         }
         return nodeList;
+    }
+
+    public static void priQueueInit(Graph<RoadNode, RoadEdge> g, List<RoadNode> coreNodes, Map <RoadNode, PriorityQueue<TempNode>> map){
+        Iterator<RoadNode> it = coreNodes.iterator();
+        while(it.hasNext()){
+            RoadNode start = it.next();
+            PriorityQueue<TempNode> nodeList = new PriorityQueue<TempNode>(cmp);
+            TempNode tempNode = new TempNode(start,0);
+            nodeList.add(tempNode);
+            map.put(start,nodeList);
+        }
+    }
+
+    public static void incomingPartition(Graph<RoadNode, RoadEdge> g, List<RoadNode> coreNodes, String fileName) throws Exception{
+        Map<RoadNode, PriorityQueue<TempNode>> map = new HashMap<RoadNode, PriorityQueue<TempNode>>();
+        Map<String, Integer> numMap = new HashMap<String, Integer>();
+        Map<String, Boolean> finishFlag = new HashMap<String, Boolean>();
+        priQueueInit(g,coreNodes,map);
+        for(Map.Entry<RoadNode, PriorityQueue<TempNode>> entry:map.entrySet()){
+            String id = entry.getKey().getOsmId();
+            numMap.put(id, 0);
+            finishFlag.put(id, false);
+        }
+        while(!isFinish(finishFlag)){
+            for(Map.Entry<RoadNode, PriorityQueue<TempNode>> entry:map.entrySet()){
+                RoadNode coreNode = entry.getKey();
+                String coreId = coreNode.getOsmId();
+                if(!finishFlag.get(coreId)){
+                    PriorityQueue<TempNode> queue = entry.getValue();
+                    RoadNode setNode = null;
+                    while(setNode==null && !queue.isEmpty()){
+                        TempNode tempNode = queue.poll();
+                        if(tempNode.getRoadNode().getBelongTo()==null ){
+                            setNode = tempNode.getRoadNode();
+                            setNode.setBelongTo(coreNode);
+                            addIncomingNeighbor(g, queue, setNode);
+                            int num = numMap.get(coreId);
+                            numMap.put(coreId, num+1);
+                            break;
+                        }
+                    }
+                    if(setNode == null){
+                        finishFlag.put(coreId,true);
+                    }
+                }
+            }
+        }
+        System.out.println(numMap);
+        int totalNum = 0;
+        for(Map.Entry<String, Integer> entry:numMap.entrySet()){
+            totalNum += entry.getValue();
+        }
+        System.out.println("incomingPartition:toatalNum="+totalNum+",vertexNum="+g.vertexSet().size());
+        //write partition infomation to file
+        FileWriter writer=new FileWriter(fileName);
+        for(RoadNode node:g.vertexSet()){
+            writer.write(node.getOsmId()+":"+node.getBelongTo().getOsmId()+"\n");
+        }
+        writer.close();
+    }
+
+    public static PriorityQueue<TempNode> addIncomingNeighbor(Graph<RoadNode, RoadEdge> g, PriorityQueue<TempNode> nodeList, RoadNode n){
+        Set<RoadEdge> edgeSet = g.incomingEdgesOf(n);
+        Iterator<RoadEdge> it = edgeSet.iterator();
+        while(it.hasNext()){
+            RoadEdge edge = it.next();
+            RoadNode node = g.getEdgeSource(edge);
+            if(node.getBelongTo()==null){
+                boolean addFlag = true;
+                boolean changeLength = false;
+                TempNode changeNode = null;
+                for(TempNode tempNode:nodeList){
+                    if(tempNode.getRoadNode() == node){
+                        addFlag = false;
+                        if(edge.getLength() < tempNode.getLength()){
+                            changeLength = true;
+                            changeNode = tempNode;
+                        }
+                        break;
+                    }
+                }
+                //add to priorityQueue
+                if(addFlag == true){
+                    TempNode tempNode = new TempNode(node,edge.getLength());
+                    nodeList.add(tempNode);
+                }
+                if(changeLength == true){
+                    nodeList.remove(changeNode);
+                    changeNode.setLength(edge.getLength());
+                    nodeList.add(changeNode);
+                }
+            }
+        }
+        return nodeList;
+    }
+
+    public static boolean isFinish(Map<String, Boolean> finishFlag){
+        for(Map.Entry<String, Boolean> entry:finishFlag.entrySet()){
+            Boolean flag = entry.getValue();
+            if(flag == false){
+                return false;
+            }
+        }
+        return true;
     }
 
     public static Set<String> readCoreInfo(String fileName){
