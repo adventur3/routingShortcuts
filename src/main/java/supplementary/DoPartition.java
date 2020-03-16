@@ -37,7 +37,7 @@ public class DoPartition {
         //set core nodes
         List<RoadNode> coreNodes = setCoreNodes(g, coreInfo);
         outgoingPartition(g, coreNodes, outgoingFile);
-        incomingPartition(g, coreNodes, incomingFile);
+        //incomingPartition(g, coreNodes, incomingFile);
     }
 
     public static void outgoingPartition(Graph<RoadNode, RoadEdge> g, List<RoadNode> coreNodes, String fileName) throws Exception{
