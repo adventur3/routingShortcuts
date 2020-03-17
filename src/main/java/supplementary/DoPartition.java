@@ -16,12 +16,12 @@ public class DoPartition {
     private static String URL="jdbc:mysql://localhost:3306/road_network?useUnicode=true&characterEncoding=UTF8&useSSL=false";
     private static String USER="root";
     private static String PASSWORD="mocom123";
-    private static int core_choose_nums=4000;
-    private static int core_nums=50;
-    public static String graphInformation="experimentData/temp_graph.ser";
-    public static String coreNodeFile="experimentData/core_choose_nums="+core_choose_nums+"_core_nums="+core_nums+".txt";
-    public static String outgoingFile="experimentData/outgoingBelong.txt";
-    public static String incomingFile="experimentData/incomingBelong.txt";
+    private static int CORE_CHOOSE_NUMS=4000;
+    private static int CORE_NUM=50;
+    public static String GRAPH_INFORMATION="experimentData/temp_graph.ser";
+    public static String CORE_NODE_FILE="experimentData/core_choose_nums="+CORE_CHOOSE_NUMS+"_core_nums="+CORE_NUM+".txt";
+    public static String OUTGOING_FILE="experimentData/outgoingBelong.txt";
+    public static String INCOMING_FILE="experimentData/incomingBelong.txt";
 
     static Comparator<TempNode> cmp = new Comparator<TempNode>() {
         public int compare(TempNode e1, TempNode e2) {
@@ -31,13 +31,13 @@ public class DoPartition {
 
     public static void main(String[] args) throws Exception{
         //read core nodes information from file
-        Set<String> coreInfo = readCoreInfo(coreNodeFile);
+        Set<String> coreInfo = readCoreInfo(CORE_NODE_FILE);
         //init the graph(not time-dependent)
         Graph<RoadNode, RoadEdge> g = initRoadNetwork();
         //set core nodes
         List<RoadNode> coreNodes = setCoreNodes(g, coreInfo);
-        outgoingPartition(g, coreNodes, outgoingFile);
-        //incomingPartition(g, coreNodes, incomingFile);
+        outgoingPartition(g, coreNodes, OUTGOING_FILE);
+        //incomingPartition(g, coreNodes, INCOMING_FILE);
     }
 
     public static void outgoingPartition(Graph<RoadNode, RoadEdge> g, List<RoadNode> coreNodes, String fileName) throws Exception{
@@ -229,7 +229,7 @@ public class DoPartition {
 
     public static Set<String> readCoreInfo(String fileName){
         Set<String> coreSet = new HashSet<String>();
-        try (FileReader reader = new FileReader(coreNodeFile); BufferedReader br = new BufferedReader(reader)) {
+        try (FileReader reader = new FileReader(CORE_NODE_FILE); BufferedReader br = new BufferedReader(reader)) {
             String line;
             while ((line = br.readLine()) != null) {
                 String coreId = line;
@@ -261,10 +261,10 @@ public class DoPartition {
 
     public static Graph<RoadNode, RoadEdge> initRoadNetwork() throws Exception {
         //如果之前存了信息，直接读
-        File file=new File(graphInformation);
+        File file=new File(GRAPH_INFORMATION);
         if(file.exists()){
             System.out.println("Graph loading...");
-            FileInputStream fileIn = new FileInputStream(graphInformation);
+            FileInputStream fileIn = new FileInputStream(GRAPH_INFORMATION);
             ObjectInputStream in = new ObjectInputStream(fileIn);
             Graph<RoadNode, RoadEdge> g = (Graph<RoadNode, RoadEdge>) in.readObject();
             in.close();
@@ -365,7 +365,7 @@ public class DoPartition {
         System.out.println("writing object file...");
         //将地图信息序列化存入文件中
         FileOutputStream fileOut =
-                new FileOutputStream(graphInformation);
+                new FileOutputStream(GRAPH_INFORMATION);
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
         out.writeObject(g);
         out.close();

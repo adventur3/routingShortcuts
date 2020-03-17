@@ -20,14 +20,14 @@ import java.util.Set;
  */
 public class PartitionOper {
 
-    private  String belongFile="experimentData/belonging_choose_nums=4000_core_nums=50.txt";
+    private static String BELONG_FILE="experimentData/belonging_choose_nums=4000_core_nums=50.txt";
     private  Map<String,String> belongingMap;
     private  Set<String> coreSet;
 
     public PartitionOper(){
         belongingMap=new HashMap<>();
         coreSet=new HashSet<>();
-        try (FileReader reader = new FileReader(belongFile); BufferedReader br = new BufferedReader(reader)) {
+        try (FileReader reader = new FileReader(BELONG_FILE); BufferedReader br = new BufferedReader(reader)) {
             String line;
             while ((line = br.readLine()) != null) {
                 belongingMap.put(line.split(":")[0],line.split(":")[1]);

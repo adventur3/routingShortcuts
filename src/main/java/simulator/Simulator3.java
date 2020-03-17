@@ -17,11 +17,11 @@ import java.time.Instant;
 import java.util.Iterator;
 
 /*
- * simulation on distance-first partition graph
+ * simulation on incoming&outgoing partition graph
  */
-public class Simulator2 {
+public class Simulator3 {
 
-    private static String GRAPH_FILE = "experimentData/core_choose_nums=4000_core_nums=50_graph.ser";
+    private static String GRAPH_FILE = "experimentData/doublePartition_graph.ser";
     //private static String REQUEST_FILE = "experimentData/trajectoryRequests.txt";
     private static String REQUEST_FILE = "experimentData/gpxTrajRequests2.txt";
 
@@ -29,7 +29,7 @@ public class Simulator2 {
 
         SimClock simClock = new SimClock(1553951724000L,1000);
         //create the road net
-        Graph<RoadNode, RoadEdge> g = LoadMap.getMap(GRAPH_FILE);
+        Graph<RoadNode, RoadEdge> g = LoadMap2.getMap(GRAPH_FILE);
         System.out.println("graph ok");
         RequestLoader requestLoader = new RequestLoader();
         requestLoader.loadRequest(REQUEST_FILE, g);

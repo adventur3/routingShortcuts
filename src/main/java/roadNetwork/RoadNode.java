@@ -18,7 +18,8 @@ public class RoadNode implements Serializable {
     private double lat;        //纬度
     private boolean coreFlag;
     private CoreNode coreNode;
-    private RoadNode belongTo;//从属于哪个core节点
+    private RoadNode belongTo;//从属于哪个core节点(outgoing)
+    private RoadNode belongTo_incoming;//从属于哪个core节点(incoming)
 
     public RoadNode() {
         coreFlag = false;
@@ -109,6 +110,14 @@ public class RoadNode implements Serializable {
 
     public RoadNode getBelongTo(){
         return belongTo;
+    }
+
+    public void setBelongTo_incoming(RoadNode coreNode){
+        this.belongTo_incoming=coreNode;
+    }
+
+    public RoadNode getBelongTo_incoming(){
+        return belongTo_incoming;
     }
 
 }
