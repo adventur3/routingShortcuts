@@ -34,8 +34,11 @@ public class Simulator3 {
         RequestLoader requestLoader = new RequestLoader();
         requestLoader.loadRequest(REQUEST_FILE, g);
 
-        //RoadNode e1 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("1881181356")).findAny().get();
-        //RoadNode e2 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("2592412682")).findAny().get();
+        RoadNode e1 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("1881181356")).findAny().get();
+        RoadNode e2 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("2592412682")).findAny().get();
+
+        System.out.println("e1:outgoing core:"+e1.getBelongTo().getOsmId()+",incoming core:"+e1.getBelongTo().getOsmId());
+        System.out.println("e2:outgoing core:"+e2.getBelongTo().getOsmId()+",incoming core:"+e2.getBelongTo().getOsmId());
 
         long count1=0;
         long count2=0;
