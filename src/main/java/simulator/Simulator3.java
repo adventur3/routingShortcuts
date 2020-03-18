@@ -37,8 +37,8 @@ public class Simulator3 {
         RoadNode e1 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("1881181356")).findAny().get();
         RoadNode e2 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("2592412682")).findAny().get();
 
-        System.out.println("e1:outgoing core:"+e1.getBelongTo().getOsmId()+",incoming core:"+e1.getBelongTo().getOsmId());
-        System.out.println("e2:outgoing core:"+e2.getBelongTo().getOsmId()+",incoming core:"+e2.getBelongTo().getOsmId());
+        System.out.println("e1:outgoing core:"+e1.getBelongTo().getOsmId()+",incoming core:"+e1.getBelongTo_incoming().getOsmId());
+        System.out.println("e2:outgoing core:"+e2.getBelongTo().getOsmId()+",incoming core:"+e2.getBelongTo_incoming().getOsmId());
 
         long count1=0;
         long count2=0;
