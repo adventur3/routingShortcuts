@@ -46,6 +46,7 @@ public class Simulator3 {
         long count3=0;
         long count4=0;
         long count5=0;
+        long count6=0;
 
         Instant inst1 = Instant.now();
         Iterator<Request> it = requestLoader.getRequestList().iterator();
@@ -101,17 +102,29 @@ public class Simulator3 {
             }
         }
         Instant inst7 = Instant.now();
+        it = requestLoader.getRequestList().iterator();
+        while(it.hasNext()){
+            Request r = it.next();
+            //Path p4 = ShortcutsWithAStar.timeDependentSinglePath(g, simClock, r.getStart(), r.getTarget());
+            Path p6 = DoublePartitionShortcut.singlePath(g, r.getStart(), r.getTarget());
+            if(p6!=null) {
+                count6 += p6.getWeight();
+            }
+        }
+        Instant inst8 = Instant.now();
         System.out.println("jgrapt dijkstra timecost:"+ Duration.between(inst1, inst2).toMillis());
         System.out.println("dijkstra timecost:" + Duration.between(inst2, inst3).toMillis());
         System.out.println("astar timecost:" + Duration.between(inst3, inst4).toMillis());
         System.out.println("shortcutwithdijkstra timecost:" + Duration.between(inst4, inst5).toMillis());
         System.out.println("shortcutwithastar timecost:" + Duration.between(inst5, inst6).toMillis());
         System.out.println("doublepartition timecost:" + Duration.between(inst6, inst7).toMillis());
+        System.out.println("doublepartition2 timecost:" + Duration.between(inst7, inst8).toMillis());
         System.out.println("dijkstra weight:" + count1);
         System.out.println("astar weight:" + count2);
         System.out.println("shortcutwithdijkstra weight:" + count3);
         System.out.println("shortcutwithastar weight:" + count4);
         System.out.println("doublepartition weight:" + count5);
+        System.out.println("doublepartition weight:" + count6);
         System.out.println("输出完成！");
 
 //		Instant inst1 = Instant.now();
