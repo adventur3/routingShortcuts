@@ -60,9 +60,14 @@ public class DoublePartitionShortcut2 {
             return path1;
         }
         Path path2 =startCore.getCoreNode().getPath(targetCore.getCoreNode());
-        path2 = getLongestPathToRegin(target,path2);
-        Path path3 = RestrainedAStar.singlePath(g, path2.getTargetNode(), target, targetCore);
-        return Path.pathCombine(Path.pathCombine(path1,path2),path3);
+        if(path2==null){
+            Path path3 = RestrainedAStar.singlePath(g, targetCore, target, targetCore);
+            return Path.pathCombine(Path.pathCombine(path1,path2),path3);
+        }else{
+            path2 = getLongestPathToRegin(target,path2);
+            Path path3 = RestrainedAStar.singlePath(g, path2.getTargetNode(), target, targetCore);
+            return Path.pathCombine(Path.pathCombine(path1,path2),path3);
+        }
     }
 
 
