@@ -9,6 +9,7 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import roadNetwork.*;
 import shortcuts.DoublePartitionShortcut;
+import shortcuts.DoublePartitionShortcut2;
 import shortcuts.ShortcutWithDijkstra;
 import shortcuts.ShortcutsWithAStar;
 
@@ -106,7 +107,7 @@ public class Simulator3 {
         while(it.hasNext()){
             Request r = it.next();
             //Path p4 = ShortcutsWithAStar.timeDependentSinglePath(g, simClock, r.getStart(), r.getTarget());
-            Path p6 = DoublePartitionShortcut.singlePath(g, r.getStart(), r.getTarget());
+            Path p6 =  DoublePartitionShortcut2.singlePath(g, r.getStart(), r.getTarget());
             if(p6!=null) {
                 count6 += p6.getWeight();
             }
@@ -124,7 +125,7 @@ public class Simulator3 {
         System.out.println("shortcutwithdijkstra weight:" + count3);
         System.out.println("shortcutwithastar weight:" + count4);
         System.out.println("doublepartition weight:" + count5);
-        System.out.println("doublepartition weight:" + count6);
+        System.out.println("doublepartition2 weight:" + count6);
         System.out.println("输出完成！");
 
 //		Instant inst1 = Instant.now();
