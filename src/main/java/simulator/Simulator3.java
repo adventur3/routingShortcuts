@@ -82,6 +82,7 @@ public class Simulator3 {
             Path p3 = ShortcutWithDijkstra.singlePath(g, r.getStart(), r.getTarget());
             count3 += p3.getWeight();
         }
+        int n1=0,n2=0,n3 = 0;
         Instant inst5 = Instant.now();
         it = requestLoader.getRequestList().iterator();
         while(it.hasNext()){
@@ -90,8 +91,11 @@ public class Simulator3 {
             Path p4 = ShortcutsWithAStar.singlePath(g, r.getStart(), r.getTarget());
             if(p4!=null) {
                 count4 += p4.getWeight();
+                n1++;
             }
         }
+
+
         Instant inst6 = Instant.now();
         it = requestLoader.getRequestList().iterator();
         while(it.hasNext()){
@@ -100,6 +104,7 @@ public class Simulator3 {
             Path p5 = DoublePartitionShortcut.singlePath(g, r.getStart(), r.getTarget());
             if(p5!=null) {
                 count5 += p5.getWeight();
+                n2++;
             }
         }
         Instant inst7 = Instant.now();
@@ -110,6 +115,7 @@ public class Simulator3 {
             Path p6 =  DoublePartitionShortcut2.singlePath(g, r.getStart(), r.getTarget());
             if(p6!=null) {
                 count6 += p6.getWeight();
+                n3++;
             }
         }
         Instant inst8 = Instant.now();
@@ -126,6 +132,7 @@ public class Simulator3 {
         System.out.println("shortcutwithastar weight:" + count4);
         System.out.println("doublepartition weight:" + count5);
         System.out.println("doublepartition2 weight:" + count6);
+        System.out.println("n1,n2,n3="+n1+","+n2+","+n3);
         System.out.println("输出完成！");
 
 //		Instant inst1 = Instant.now();

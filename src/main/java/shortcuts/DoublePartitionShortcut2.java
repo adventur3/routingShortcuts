@@ -54,6 +54,9 @@ public class DoublePartitionShortcut2 {
         Path path1 = null;
         if(!start.isCore()){
             path1 = step1(g, start, target);
+            if(path1==null){
+                return null;
+            }
             startCore = path1.getTargetNode();
         }
         if(startCore == target){
