@@ -23,7 +23,7 @@ public class Simulator2 {
 
     private static String GRAPH_FILE = "experimentData/core_choose_nums=4000_core_nums=50_graph.ser";
     //private static String REQUEST_FILE = "experimentData/trajectoryRequests.txt";
-    private static String REQUEST_FILE = "experimentData/gpxTrajRequests2.txt";
+    private static String REQUEST_FILE = "experimentData/gpxTrajRequests.txt";
 
     public static void main(String[] args) throws IOException, DocumentException, java.lang.Exception {
 

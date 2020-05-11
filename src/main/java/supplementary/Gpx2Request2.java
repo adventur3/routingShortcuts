@@ -8,7 +8,8 @@ import java.io.*;
 import java.util.*;
 
 /*
-将gpx轨迹映射到路网上, 轨迹距离长度由TrajectoryMapping计算
+ * 将gpx轨迹映射到路网上, 轨迹距离长度由TrajectoryMapping计算
+ * mapping the gpx trajectory onto road network, the length of trajectory is calculated by TrajectoryMapping
  */
 public class Gpx2Request2 {
 

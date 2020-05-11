@@ -17,9 +17,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /*
-
-将gpx轨迹映射到路网上，其中轨迹的距离长度为由gpx文件里的gps坐标计算
-
+ * 将gpx轨迹映射到路网上，其中轨迹的距离长度为由gpx文件里的gps坐标计算
+ * mapping the gpx trajectory onto road network, the length of trajectory is calculated by gps
  */
 public class Gpx2Request {
 
