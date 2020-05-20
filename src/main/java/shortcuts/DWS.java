@@ -13,8 +13,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-public class ShortcutWithDijkstra {
-
+/*
+ * DIJKSTRA WITH SHORTCUTS
+ */
+public class DWS {
     /*
      * get the dijkstra shortest path from start to target
      */
@@ -28,8 +30,6 @@ public class ShortcutWithDijkstra {
         }else{
            p2 = startBelong.getCoreNode().getPath( targetBelong.getCoreNode());
         }
-
-
         //System.out.println("star id="+start.getOsmId()+" startBelong id="+startBelong.getOsmId()+" targetBelong id="+ targetBelong.getOsmId()+" target id="+target.getOsmId());
         Path p3 = null;
         if(p1==null&&p2==null){
@@ -41,16 +41,15 @@ public class ShortcutWithDijkstra {
         }else{
             p3 = Dijkstra.singlePath(g, targetBelong, target);
         }
-
         Path temp_p = Path.pathCombine(p1,p2);
 
         return Path.pathCombine(temp_p, p3);
     }
 
-    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, SimClock simClock, RoadNode start, RoadNode target) {
+    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long startTime, RoadNode start, RoadNode target) {
         RoadNode startBelong = start.getBelongTo();
         RoadNode targetBelong = target.getBelongTo();
-        long starttime = simClock.getNow();
+        long starttime = startTime;
         Path p1 = Dijkstra.timeDependentSinglePath(g, starttime, start, startBelong);
         Path p2 = null;
         if(p1!=null){
@@ -58,7 +57,6 @@ public class ShortcutWithDijkstra {
         }else{
             p2 = startBelong.getCoreNode().getPath(starttime, targetBelong.getCoreNode());
         }
-
         //System.out.println("star id="+start.getOsmId()+" startBelong id="+startBelong.getOsmId()+" targetBelong id="+ targetBelong.getOsmId()+" target id="+target.getOsmId());
         Path p3 = null;
         if(p1==null&&p2==null){
@@ -70,10 +68,7 @@ public class ShortcutWithDijkstra {
         }else{
             p3 = Dijkstra.timeDependentSinglePath(g, starttime+p1.getWeight()+p2.getWeight(), targetBelong, target);
         }
-
         Path temp_p = Path.pathCombine(p1,p2);
-
         return Path.pathCombine(temp_p, p3);
     }
-
 }

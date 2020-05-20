@@ -9,7 +9,7 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import roadNetwork.*;
-import shortcuts.ShortcutWithDijkstra;
+import shortcuts.DWS;
 import simulator.Request;
 import simulator.RequestLoader;
 import simulator.SimClock;
@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Iterator;
-import java.util.Set;
 
 public class RoutingTest {
 
@@ -61,25 +60,25 @@ public class RoutingTest {
 //            count2 += p1.getWeight();
         }
         Instant inst3 = Instant.now();
-        it = requestLoader.getRequestList().iterator();
-        while(it.hasNext()){
-            Request r = it.next();
-            testAStar(g,simClock,r.getStart(),r.getTarget());
+//        it = requestLoader.getRequestList().iterator();
+//        while(it.hasNext()){
+//            Request r = it.next();
+//            testAStar(g,simClock,r.getStart(),r.getTarget());
 //            Path p2 = AStar.singlePath(g, simClock, r.getStart(), r.getTarget());
 //            count3 += p2.getWeight();
-        }
-        Instant inst4 = Instant.now();
-        it = requestLoader.getRequestList().iterator();
-        while(it.hasNext()){
-            Request r = it.next();
-            testShortcutRouting(g,simClock,r.getStart(),r.getTarget());
+//        }
+//        Instant inst4 = Instant.now();
+//        it = requestLoader.getRequestList().iterator();
+//        while(it.hasNext()){
+//            Request r = it.next();
+//            testShortcutRouting(g,simClock,r.getStart(),r.getTarget());
 //            Path p3 = ShortcutWithDijkstra.singlePath(g, simClock, r.getStart(), r.getTarget());
 //            count4 += p3.getWeight();
-        }
-        Instant inst5 = Instant.now();
-        System.out.println("T1="+ Duration.between(inst1, inst2).toMillis()+",T2="+Duration.between(inst2, inst3).toMillis()+",T3="+Duration.between(inst3,inst4).toMillis()+",T4="+Duration.between(inst4,inst5).toMillis());
-        System.out.println(count1+","+count2+","+count3+","+count4);
-        System.out.println("输出完成！");
+//        }
+//        Instant inst5 = Instant.now();
+//        System.out.println("T1="+ Duration.between(inst1, inst2).toMillis()+",T2="+Duration.between(inst2, inst3).toMillis()+",T3="+Duration.between(inst3,inst4).toMillis()+",T4="+Duration.between(inst4,inst5).toMillis());
+//        System.out.println(count1+","+count2+","+count3+","+count4);
+//        System.out.println("输出完成！");
 
 //		Instant inst1 = Instant.now();
 //		testCoreRouting(g,e1,e2,simClock);
@@ -110,23 +109,23 @@ public class RoutingTest {
         }
     }
 
-    public static void testAStar(Graph<RoadNode, RoadEdge> g, SimClock clock, RoadNode e1, RoadNode e2){
-        Path thepath = AStar.timeDependentSinglePath(g, clock, e1, e2);
-        System.out.println("path:="+thepath.getWeight());
-        while(!thepath.isEmpty()) {
-            PathSegment pathSegment = thepath.pollPathSegment();
-            RoadNode node = pathSegment.getEndNode();
-            System.out.println("asta:"+node.getOsmId());
-        }
-    }
+//    public static void testAStar(Graph<RoadNode, RoadEdge> g, SimClock clock, RoadNode e1, RoadNode e2){
+//        Path thepath = AStar.timeDependentSinglePath(g, clock, e1, e2);
+//        System.out.println("path:="+thepath.getWeight());
+//        while(!thepath.isEmpty()) {
+//            PathSegment pathSegment = thepath.pollPathSegment();
+//            RoadNode node = pathSegment.getEndNode();
+//            System.out.println("asta:"+node.getOsmId());
+//        }
+//    }
 
-    public static void testShortcutRouting(Graph<RoadNode, RoadEdge> g, SimClock clock, RoadNode e1, RoadNode e2){
-        Path thepath = ShortcutWithDijkstra.timeDependentSinglePath(g, clock, e1, e2);
-        //System.out.println("path:="+thepath);
-        while(!thepath.isEmpty()) {
-            PathSegment pathSegment = thepath.pollPathSegment();
-            RoadNode node = pathSegment.getEndNode();
-            System.out.println("shor:"+node.getOsmId());
-        }
-    }
+//    public static void testShortcutRouting(Graph<RoadNode, RoadEdge> g, SimClock clock, RoadNode e1, RoadNode e2){
+//        Path thepath = DWS.timeDependentSinglePath(g, clock, e1, e2);
+//        //System.out.println("path:="+thepath);
+//        while(!thepath.isEmpty()) {
+//            PathSegment pathSegment = thepath.pollPathSegment();
+//            RoadNode node = pathSegment.getEndNode();
+//            System.out.println("shor:"+node.getOsmId());
+//        }
+//    }
 }

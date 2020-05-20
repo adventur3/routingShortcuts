@@ -8,22 +8,26 @@ import simulator.SimClock;
 
 import java.util.*;
 
-public class ShortcutsWithAStar {
+/*
+ * AWS-MA: A* WITH SHORTCUTS-A MORE ACCURATE VERSION
+ */
+public class AWS_MA {
 
-    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, SimClock simClock, RoadNode start, RoadNode target){
+    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target){
+        long starttime = time;
         if(start == target){
             return null;
         }
         RoadNode startBelong = start.getBelongTo();
         RoadNode targetBelong = target.getBelongTo();
         if(startBelong == targetBelong){
-            return AStar.timeDependentSinglePath(g, simClock, start, target);
+            return AStar.timeDependentSinglePath(g, starttime, start, target);
         }
         Path p1 = null;
         Path p2 = null;
         Path p3 = null;
         if(!start.isCore()){
-            p1 = timeDependentStep1(g, simClock, start, target);
+            p1 = timeDependentStep1(g, starttime, start, target);
             startBelong = p1.getTargetNode();
         }
         if(startBelong == target){
@@ -32,22 +36,22 @@ public class ShortcutsWithAStar {
             if(startBelong == targetBelong){
                 p2 = null;
                 p1 = getLongestPathToRegin(target,p1);
-                p3 = AStar.timeDependentSinglePath(g, simClock.getNow()+p1.getWeight(), p1.getTargetNode(), target);
+                p3 = AStar.timeDependentSinglePath(g, starttime+p1.getWeight(), p1.getTargetNode(), target);
                 return Path.pathCombine(p1,p3);
             }else{
                 if(p1!=null){
-                    p2 = startBelong.getCoreNode().getPath(simClock.getNow()+p1.getWeight(), targetBelong.getCoreNode());
+                    p2 = startBelong.getCoreNode().getPath(starttime+p1.getWeight(), targetBelong.getCoreNode());
                 }else{
-                    p2 = startBelong.getCoreNode().getPath(simClock.getNow(), targetBelong.getCoreNode());
+                    p2 = startBelong.getCoreNode().getPath(starttime, targetBelong.getCoreNode());
                 }
                 if(p2.getTargetNode() == target){
                     return Path.pathCombine(p1,p2);
                 }
                 p2 = getLongestPathToRegin(target,p2);
                 if(p1!=null){
-                    p3 = AStar.timeDependentSinglePath(g, simClock.getNow()+p1.getWeight()+p2.getWeight(), p2.getTargetNode(), target);
+                    p3 = AStar.timeDependentSinglePath(g, starttime+p1.getWeight()+p2.getWeight(), p2.getTargetNode(), target);
                 }else{
-                    p3 = AStar.timeDependentSinglePath(g, simClock.getNow()+p2.getWeight(), p2.getTargetNode(), target);
+                    p3 = AStar.timeDependentSinglePath(g, starttime+p2.getWeight(), p2.getTargetNode(), target);
                 }
             }
         }
@@ -55,11 +59,11 @@ public class ShortcutsWithAStar {
         return Path.pathCombine(temp_p, p3);
     }
 
-    public static Path timeDependentStep1(Graph<RoadNode, RoadEdge> g, SimClock simClock, RoadNode start, RoadNode target){
+    public static Path timeDependentStep1(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target){
         if(start.isCore()){
             return null;
         }else{
-            long startTime = simClock.getNow();
+            long startTime = time;
             Map<String, AStarInfoNode> infoNodes=new HashMap<String,AStarInfoNode>();  //为了根据roadNode找到infoNode
             LinkedList<AStarInfoNode> priorityQueue = new LinkedList<AStarInfoNode>();
             long estimatedWeight = (long) (MillerCoordinate.distance(start, target)/ AStar.estimatedSpeed);

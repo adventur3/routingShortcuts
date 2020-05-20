@@ -13,32 +13,6 @@ public class AStar {
     /*
      * get the astar shortest path from start to target
      */
-    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, SimClock simClock, RoadNode start, RoadNode target) {
-        long startTime = simClock.getNow();
-        Map<String, AStarInfoNode> infoNodes=new HashMap<String,AStarInfoNode>();  //为了根据roadNode找到infoNode
-        LinkedList<AStarInfoNode> priorityQueue = new LinkedList<AStarInfoNode>();
-        long estimatedWeight = (long) (MillerCoordinate.distance(start, target)/AStar.estimatedSpeed);
-        AStarInfoNode startInfo = new AStarInfoNode(startTime, start, target, estimatedWeight);
-        infoNodes.put(start.getOsmId(),startInfo);
-        priorityQueue.add(startInfo);
-        startInfo.setExplored();
-
-        Path path =null;
-        while(!priorityQueue.isEmpty()) {
-            AStarInfoNode inode = priorityQueue.pollFirst();
-            inode.setSetted();
-            if (inode.getRoadNode() == target) {
-                path = outShortestPath(infoNodes, start, target);
-                return path;
-            }
-            timeDependentUpdateForwardPriorityQueue(g, infoNodes, priorityQueue, inode, target);
-        }
-        return path;
-    }
-
-    /*
-     * get the astar shortest path from start to target
-     */
     public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target) {
         long startTime = time;
         Map<String, AStarInfoNode> infoNodes=new HashMap<String,AStarInfoNode>();  //为了根据roadNode找到infoNode
