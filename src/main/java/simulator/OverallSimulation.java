@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public class OverallSimulation {
 
-    private static String GRAPH_FILE = "experimentData/doublePartition_graph.ser";
+    private static String GRAPH_FILE = "experimentData/Maps/doublePartition_graph_k=20.ser";
     //private static String REQUEST_FILE = "experimentData/trajectoryRequests.txt";
     private static String REQUEST_FILE = "experimentData/newGpxTrajRequests.txt";
 

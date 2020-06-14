@@ -271,7 +271,7 @@ public class LoadMap2 {
      */
     public static void loadBelongFile(Graph<RoadNode, RoadEdge> g)throws Exception{
         Map<String, RoadNode> coreNodes = new HashMap<String, RoadNode>();
-        try (FileReader reader = new FileReader(LoadMap.coreNodeFile); BufferedReader br = new BufferedReader(reader)) {
+        try (FileReader reader = new FileReader(CORENODE_FILE); BufferedReader br = new BufferedReader(reader)) {
             String line = "";
             while ((line = br.readLine()) != null) {
                 String nodeId = line;
