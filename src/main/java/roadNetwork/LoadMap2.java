@@ -23,10 +23,10 @@ public class LoadMap2 {
     private static int BREAK_POINT=24;
     private static int ut=1;
     //private static int CORE_CHOOSE_NUMS=4000;
-    private static int CORE_NUM=50;
+    private static int CORE_NUM=20;
 
     public static String GRAPH_INFORMATION="experimentData/Maps/doublePartition_graph_k="+CORE_NUM+".ser";
-    public static String CORENODE_FILE="k="+CORE_NUM+".txt";
+    public static String CORENODE_FILE="experimentData/coreNodes/k="+CORE_NUM+".txt";
     public static String OUTGOING_FILE="experimentData/belongings/outgoingBelong_k="+CORE_NUM+".txt";
     public static String INCOMING_FILE="experimentData/belongings/incomingBelong_k="+CORE_NUM+".txt";
 
