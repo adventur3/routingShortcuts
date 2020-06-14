@@ -22,13 +22,13 @@ public class LoadMap2 {
 
     private static int BREAK_POINT=24;
     private static int ut=1;
-    private static int CORE_CHOOSE_NUMS=4000;
-    private static int CORE_NUMS=50;
+    //private static int CORE_CHOOSE_NUMS=4000;
+    private static int CORE_NUM=50;
 
     public static String GRAPH_INFORMATION="experimentData/doublePartition_graph.ser";
-    public static String CORENODE_FILE="experimentData/core_choose_nums="+CORE_CHOOSE_NUMS+"_core_nums="+CORE_NUMS+".txt";
-    public static String OUTGOING_PARTITION_FILE="experimentData/outgoingBelong.txt";
-    public static String INCOMING_PARTITION_FILE="experimentData/incomingBelong.txt";
+    public static String CORENODE_FILE="k="+CORE_NUM+".txt";
+    public static String OUTGOING_FILE="experimentData/belongings/outgoingBelong_k="+CORE_NUM+".txt";
+    public static String INCOMING_FILE="experimentData/belongings/incomingBelong_k="+CORE_NUM+".txt";
 
     //根据边的Id查找对应的TD-cost
     public static List<Long> getTdCostByRelationship(String id, Connection connection) throws SQLException
@@ -265,7 +265,7 @@ public class LoadMap2 {
 
 
     /*
-     * 将所属core信息加载进入节点中，没有的则选取最近core冒充
+     * 将core节点的下属节点信息载入
      * @param g
      * @return void
      */
@@ -282,7 +282,7 @@ public class LoadMap2 {
             e.printStackTrace();
         }
 
-        try (FileReader reader = new FileReader(OUTGOING_PARTITION_FILE); BufferedReader br = new BufferedReader(reader)) {
+        try (FileReader reader = new FileReader(OUTGOING_FILE); BufferedReader br = new BufferedReader(reader)) {
             String line;
             while ((line = br.readLine()) != null) {
                 String nodeId = line.split(":")[0];
@@ -294,7 +294,7 @@ public class LoadMap2 {
             e.printStackTrace();
         }
 
-        try (FileReader reader = new FileReader(INCOMING_PARTITION_FILE); BufferedReader br = new BufferedReader(reader)) {
+        try (FileReader reader = new FileReader(INCOMING_FILE); BufferedReader br = new BufferedReader(reader)) {
             String line;
             while ((line = br.readLine()) != null) {
                 String nodeId = line.split(":")[0];

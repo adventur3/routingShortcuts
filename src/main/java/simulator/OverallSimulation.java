@@ -40,6 +40,8 @@ public class OverallSimulation {
         Map<String, Long> weightMap = new HashMap<String, Long>();
         Map<String, Long> searchTimeMap = new HashMap<String, Long>();
 
+        Recorder recorder = new Recorder();
+
         String[] algArray = new String[]{"DIJKSTRA", "ASTAR", "DWS", "AWS", "AWS-MA", "AWS-HOE"};
 
         for(int i=0;i<algArray.length;i++){
@@ -74,7 +76,7 @@ public class OverallSimulation {
                 Instant inst1 = Instant.now();
                 while(it.hasNext()){
                     Request r = it.next();
-                    Path p = DWS.timeDependentSinglePath(g, starttime, r.getStart(), r.getTarget());
+                    Path p = DWS.timeDependentSinglePath(g, starttime, r.getStart(), r.getTarget(), recorder);
                     tempWeight += p.getWeight();
                 }
                 Instant inst2 = Instant.now();
@@ -86,7 +88,7 @@ public class OverallSimulation {
                 Instant inst1 = Instant.now();
                 while(it.hasNext()){
                     Request r = it.next();
-                    Path p = AWS.timeDependentSinglePath(g, starttime, r.getStart(), r.getTarget());
+                    Path p = AWS.timeDependentSinglePath(g, starttime, r.getStart(), r.getTarget(), recorder);
                     tempWeight += p.getWeight();
                 }
                 Instant inst2 = Instant.now();
@@ -98,7 +100,7 @@ public class OverallSimulation {
                 Instant inst1 = Instant.now();
                 while(it.hasNext()){
                     Request r = it.next();
-                    Path p = AWS_MA.timeDependentSinglePath(g, starttime, r.getStart(), r.getTarget());
+                    Path p = AWS_MA.timeDependentSinglePath(g, starttime, r.getStart(), r.getTarget(), recorder);
                     tempWeight += p.getWeight();
                 }
                 Instant inst2 = Instant.now();
@@ -110,7 +112,7 @@ public class OverallSimulation {
                 Instant inst1 = Instant.now();
                 while(it.hasNext()){
                     Request r = it.next();
-                    Path p = AWS_HOE.timeDependentSinglePath(g, starttime, r.getStart(), r.getTarget());
+                    Path p = AWS_HOE.timeDependentSinglePath(g, starttime, r.getStart(), r.getTarget(), recorder);
                     tempWeight += p.getWeight();
                 }
                 Instant inst2 = Instant.now();
@@ -125,6 +127,11 @@ public class OverallSimulation {
         for(int i=0;i<algArray.length;i++){
             System.out.println(algArray[i]+"_Weight=" + weightMap.get(algArray[i]+"_Weight"));
         }
+        System.out.println("Restrained Search Count DWS = "+recorder.getRestrainedSearchCount_DWS());
+        System.out.println("Restrained Search Count AWS = "+recorder.getRestrainedSearchCount_AWS());
+        System.out.println("Restrained Search Count AWS_HOE = "+recorder.getRestrainedSearchCount_AWS_HOE());
+        System.out.println("Restrained Search Count AWS_MA = "+recorder.getRestrainedSearchCount_AWS_MA());
+        System.out.println("Shortcuts Use Count AWS_MA = "+recorder.getShortcutUseCount_AWS_MA());
         System.out.println("输出完成！");
     }
 }

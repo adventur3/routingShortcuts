@@ -5,6 +5,7 @@ import astar.AStarInfoNode;
 import astar.RestrainedAStar;
 import org.jgrapht.Graph;
 import roadNetwork.*;
+import simulator.Recorder;
 import simulator.SimClock;
 
 import java.util.HashMap;
@@ -36,8 +37,9 @@ public class AWS_HOE {
         }
     }
 
-    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target){
+    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target, Recorder recorder){
         if(isSameCore(start, target)){
+            recorder.restrainedSearchCount_AWS_HOE_AddOne();
             return timeDependentRestrainedSearch(g, time, start, target);
         }else{
             return timeDependentCrossPartitionSearch(g, time, start, target);

@@ -16,12 +16,12 @@ public class DoPartition {
     private static String URL="jdbc:mysql://localhost:3306/road_network?useUnicode=true&characterEncoding=UTF8&useSSL=false";
     private static String USER="root";
     private static String PASSWORD="mocom123";
-    private static int CORE_CHOOSE_NUMS=4000;
+    //private static int CORE_CHOOSE_NUMS=4000;
     private static int CORE_NUM=50;
     public static String GRAPH_INFORMATION="experimentData/temp_graph.ser";
-    public static String CORE_NODE_FILE="experimentData/core_choose_nums="+CORE_CHOOSE_NUMS+"_core_nums="+CORE_NUM+".txt";
-    public static String OUTGOING_FILE="experimentData/outgoingBelong.txt";
-    public static String INCOMING_FILE="experimentData/incomingBelong.txt";
+    public static String CORE_NODE_FILE="k="+CORE_NUM+".txt";
+    public static String OUTGOING_FILE="experimentData/belongings/outgoingBelong_k="+CORE_NUM+".txt";
+    public static String INCOMING_FILE="experimentData/belongings/incomingBelong_k="+CORE_NUM+".txt";
 
     static Comparator<TempNode> cmp = new Comparator<TempNode>() {
         public int compare(TempNode e1, TempNode e2) {

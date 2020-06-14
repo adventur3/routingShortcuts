@@ -4,6 +4,7 @@ import astar.AStar;
 import astar.AStarInfoNode;
 import org.jgrapht.Graph;
 import roadNetwork.*;
+import simulator.Recorder;
 import simulator.SimClock;
 
 import java.util.*;
@@ -13,14 +14,15 @@ import java.util.*;
  */
 public class AWS_MA {
 
-    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target){
+    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target, Recorder recorder){
         long starttime = time;
         if(start == target){
             return null;
         }
-        RoadNode startBelong = start.getBelongTo();
+        RoadNode startBelong = start.getBelongTo_incoming();
         RoadNode targetBelong = target.getBelongTo();
         if(startBelong == targetBelong){
+            recorder.restrainedSearchCount_AWS_MA_AddOne();
             return AStar.timeDependentSinglePath(g, starttime, start, target);
         }
         Path p1 = null;
@@ -39,6 +41,7 @@ public class AWS_MA {
                 p3 = AStar.timeDependentSinglePath(g, starttime+p1.getWeight(), p1.getTargetNode(), target);
                 return Path.pathCombine(p1,p3);
             }else{
+                recorder.shortcutUseCount_AWS_MA_AddOne();
                 if(p1!=null){
                     p2 = startBelong.getCoreNode().getPath(starttime+p1.getWeight(), targetBelong.getCoreNode());
                 }else{
