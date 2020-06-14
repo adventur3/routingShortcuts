@@ -18,8 +18,8 @@ public class DoPartition {
     private static String PASSWORD="mocom123";
     //private static int CORE_CHOOSE_NUMS=4000;
     private static int CORE_NUM=50;
-    public static String GRAPH_INFORMATION="experimentData/temp_graph.ser";
-    public static String CORE_NODE_FILE="k="+CORE_NUM+".txt";
+    public static String GRAPH_INFORMATION="experimentData/originGraph/origin_graph.ser"; //初始的 尚未加入core节点和分区的地图
+    public static String CORE_NODE_FILE="experimentData/coreNodes/k="+CORE_NUM+".txt";
     public static String OUTGOING_FILE="experimentData/belongings/outgoingBelong_k="+CORE_NUM+".txt";
     public static String INCOMING_FILE="experimentData/belongings/incomingBelong_k="+CORE_NUM+".txt";
 
@@ -36,8 +36,8 @@ public class DoPartition {
         Graph<RoadNode, RoadEdge> g = initRoadNetwork();
         //set core nodes
         List<RoadNode> coreNodes = setCoreNodes(g, coreInfo);
-        outgoingPartition(g, coreNodes, OUTGOING_FILE);
-        //incomingPartition(g, coreNodes, INCOMING_FILE);
+        //outgoingPartition(g, coreNodes, OUTGOING_FILE);
+        incomingPartition(g, coreNodes, INCOMING_FILE);
     }
 
     public static void outgoingPartition(Graph<RoadNode, RoadEdge> g, List<RoadNode> coreNodes, String fileName) throws Exception{
@@ -352,7 +352,7 @@ public class DoPartition {
 
         connection.close();
 
-        System.out.println("adding core information...");
+        //System.out.println("adding core information...");
         //将coreNode和coreEdge的信息导入
         //addCoreInformation(g);
 
