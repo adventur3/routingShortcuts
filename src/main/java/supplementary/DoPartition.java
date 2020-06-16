@@ -17,7 +17,7 @@ public class DoPartition {
     private static String USER="root";
     private static String PASSWORD="mocom123";
     //private static int CORE_CHOOSE_NUMS=4000;
-    private static int CORE_NUM=20;
+    private static int CORE_NUM=100;
     public static String GRAPH_INFORMATION="experimentData/originGraph/origin_graph.ser"; //初始的,只有节点和边及边的长度的地图
     public static String CORE_NODE_FILE="experimentData/coreNodes/k="+CORE_NUM+".txt";
     public static String OUTGOING_FILE="experimentData/belongings/outgoingBelong_k="+CORE_NUM+".txt";
