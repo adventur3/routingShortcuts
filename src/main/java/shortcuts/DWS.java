@@ -1,17 +1,11 @@
 package shortcuts;
 
 import dijkstra.Dijkstra;
-import dijkstra.InfoNode;
 import org.jgrapht.Graph;
 import roadNetwork.Path;
-import roadNetwork.PathSegment;
 import roadNetwork.RoadEdge;
 import roadNetwork.RoadNode;
-import simulator.Recorder;
-
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import recorder.ShortcutHitRecorder;
 
 /*
  * DIJKSTRA WITH SHORTCUTS
@@ -46,7 +40,7 @@ public class DWS {
         return Path.pathCombine(temp_p, p3);
     }
 
-    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long startTime, RoadNode start, RoadNode target, Recorder recorder) {
+    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long startTime, RoadNode start, RoadNode target, ShortcutHitRecorder shortcutHitRecorder) {
         RoadNode startBelong = start.getBelongTo();
         RoadNode targetBelong = target.getBelongTo();
         long starttime = startTime;
@@ -61,12 +55,12 @@ public class DWS {
         Path p3 = null;
         if(p1==null&&p2==null){
             p3 = Dijkstra.timeDependentSinglePath(g, starttime, targetBelong, target);
-            recorder.restrainedSearchCount_DWS_AddOne();
+            shortcutHitRecorder.restrainedSearchCount_DWS_AddOne();
         }else if(p1==null){
             p3 = Dijkstra.timeDependentSinglePath(g, starttime+p2.getWeight(), targetBelong, target);
         }else if(p2==null){
             p3 = Dijkstra.timeDependentSinglePath(g, starttime+p1.getWeight(), targetBelong, target);
-            recorder.restrainedSearchCount_DWS_AddOne();
+            shortcutHitRecorder.restrainedSearchCount_DWS_AddOne();
         }else{
             p3 = Dijkstra.timeDependentSinglePath(g, starttime+p1.getWeight()+p2.getWeight(), targetBelong, target);
         }

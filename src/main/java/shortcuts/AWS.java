@@ -1,13 +1,11 @@
 package shortcuts;
 
-import astar.AStar;
 import astar.RestrainedAStar;
 import org.jgrapht.Graph;
 import roadNetwork.Path;
 import roadNetwork.RoadEdge;
 import roadNetwork.RoadNode;
-import simulator.Recorder;
-import simulator.SimClock;
+import recorder.ShortcutHitRecorder;
 
 /*
  * AWS:AStar With Shortcuts
@@ -33,9 +31,9 @@ public class AWS {
         }
     }
 
-    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target, Recorder recorder){
+    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target, ShortcutHitRecorder shortcutHitRecorder){
         if(isSameCore(start, target)){
-            recorder.restrainedSearchCount_AWS_AddOne();
+            shortcutHitRecorder.restrainedSearchCount_AWS_AddOne();
             return timeDependentRestrainedSearch(g, time, start, target);
         }else{
             return timeDependentCrossPartitionSearch(g, time, start, target);

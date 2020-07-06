@@ -1,17 +1,12 @@
 package shortcuts;
 
 import astar.AStar;
-import astar.AStarInfoNode;
 import astar.RestrainedAStar;
 import org.jgrapht.Graph;
 import roadNetwork.*;
-import simulator.Recorder;
-import simulator.SimClock;
+import recorder.ShortcutHitRecorder;
 
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /*
  * AWS-HOP OFF EARLY
@@ -37,9 +32,9 @@ public class AWS_HOE {
         }
     }
 
-    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target, Recorder recorder){
+    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target, ShortcutHitRecorder shortcutHitRecorder){
         if(isSameCore(start, target)){
-            recorder.restrainedSearchCount_AWS_HOE_AddOne();
+            shortcutHitRecorder.restrainedSearchCount_AWS_HOE_AddOne();
             return timeDependentRestrainedSearch(g, time, start, target);
         }else{
             return timeDependentCrossPartitionSearch(g, time, start, target);

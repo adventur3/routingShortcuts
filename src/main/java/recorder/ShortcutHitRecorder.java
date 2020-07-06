@@ -1,6 +1,6 @@
-package simulator;
+package recorder;
 
-public class Recorder {
+public class ShortcutHitRecorder {
     private int restrainedSearchCount_DWS;
     private int restrainedSearchCount_AWS;
     private int restrainedSearchCount_AWS_MA;
@@ -10,7 +10,7 @@ public class Recorder {
     private int shortcutUseCount_AWS_MA;
 //    private int shortcutUseCount_AWS_HOE;
 
-    public Recorder(){
+    public ShortcutHitRecorder(){
         restrainedSearchCount_DWS = 0;
         restrainedSearchCount_AWS = 0;
         restrainedSearchCount_AWS_MA = 0;

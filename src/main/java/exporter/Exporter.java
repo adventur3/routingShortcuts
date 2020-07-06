@@ -1,0 +1,169 @@
+package exporter;
+
+import org.antlr.v4.runtime.atn.LexerPopModeAction;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import recorder.AlgorithmType;
+import recorder.PerformanceRecorder;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Exporter {
+
+//    public static void main(String[] args) throws IOException{
+//        Exporter e = new Exporter();
+//        e.exportPerformance();
+//    }
+
+    public void exportPerformance(String outFilePath, PerformanceRecorder performanceRecorder) throws IOException {
+        //创建HSSFWorkbook对象
+        HSSFWorkbook wb = new HSSFWorkbook();
+        //创建HSSFSheet对象
+        HSSFSheet sheet = wb.createSheet("sheet0");
+        //创建HSSFRow对象
+        HSSFRow row = sheet.createRow(0);
+        //创建HSSFCell对象
+        HSSFCell cell=row.createCell(0);
+        HSSFCell cell1=row.createCell(1);
+        HSSFCell cell2=row.createCell(2);
+        HSSFCell cell3=row.createCell(3);
+        HSSFCell cell4=row.createCell(4);
+        HSSFCell cell5=row.createCell(5);
+        HSSFCell cell6=row.createCell(6);
+        //设置单元格的值
+        cell1.setCellValue("DIJKSTRA");
+        cell2.setCellValue("ASTAR");
+        cell3.setCellValue("DWS");
+        cell4.setCellValue("AWS");
+        cell5.setCellValue("AWS_MA");
+        cell6.setCellValue("AWS_HOE");
+        //路径平均长度
+        HSSFRow row1 = sheet.createRow(1);
+        List<HSSFCell> cellInRow1 = new ArrayList<HSSFCell>();
+        for(int i=0;i<7;i++){
+            cellInRow1.add(row1.createCell(i));
+        }
+        for(int i=0;i<7;i++){
+            if(i==0){
+                cellInRow1.get(i).setCellValue("mean length(s)");
+            }else if(i==1){
+                cellInRow1.get(i).setCellValue(performanceRecorder.calculateMeanLength(AlgorithmType.DIJKSTRA));
+            }else if(i==2){
+                cellInRow1.get(i).setCellValue(performanceRecorder.calculateMeanLength(AlgorithmType.ASTAR));
+            }else if(i==3){
+                cellInRow1.get(i).setCellValue(performanceRecorder.calculateMeanLength(AlgorithmType.DWS));
+            }else if(i==4){
+                cellInRow1.get(i).setCellValue(performanceRecorder.calculateMeanLength(AlgorithmType.AWS));
+            }else if(i==5){
+                cellInRow1.get(i).setCellValue(performanceRecorder.calculateMeanLength(AlgorithmType.AWS_MA));
+            }else{
+                cellInRow1.get(i).setCellValue(performanceRecorder.calculateMeanLength(AlgorithmType.AWS_HOE));
+            }
+        }
+        //总寻路时间
+        HSSFRow row2 = sheet.createRow(2);
+        List<HSSFCell> cellInRow2 = new ArrayList<HSSFCell>();
+        for(int i=0;i<7;i++){
+            cellInRow2.add(row2.createCell(i));
+        }
+        for(int i=0;i<7;i++){
+            if(i==0){
+                cellInRow2.get(i).setCellValue("mean search time(ms)");
+            }else if(i==1){
+                cellInRow2.get(i).setCellValue(performanceRecorder.getMeanSearchTime(AlgorithmType.DIJKSTRA));
+            }else if(i==2){
+                cellInRow2.get(i).setCellValue(performanceRecorder.getMeanSearchTime(AlgorithmType.ASTAR));
+            }else if(i==3){
+                cellInRow2.get(i).setCellValue(performanceRecorder.getMeanSearchTime(AlgorithmType.DWS));
+            }else if(i==4){
+                cellInRow2.get(i).setCellValue(performanceRecorder.getMeanSearchTime(AlgorithmType.AWS));
+            }else if(i==5){
+                cellInRow2.get(i).setCellValue(performanceRecorder.getMeanSearchTime(AlgorithmType.AWS_MA));
+            }else{
+                cellInRow2.get(i).setCellValue(performanceRecorder.getMeanSearchTime(AlgorithmType.AWS_HOE));
+            }
+        }
+        //max diff
+        HSSFRow row3 = sheet.createRow(3);
+        List<HSSFCell> cellInRow3 = new ArrayList<HSSFCell>();
+        for(int i=0;i<7;i++){
+            cellInRow3.add(row3.createCell(i));
+        }
+        for(int i=0;i<7;i++){
+            if(i==0){
+                cellInRow3.get(i).setCellValue("max diff(s)");
+            }else if(i==1){
+                cellInRow3.get(i).setCellValue(performanceRecorder.calculateMaxOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.DIJKSTRA));
+            }else if(i==2){
+                cellInRow3.get(i).setCellValue(performanceRecorder.calculateMaxOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.ASTAR));
+            }else if(i==3){
+                cellInRow3.get(i).setCellValue(performanceRecorder.calculateMaxOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.DWS));
+            }else if(i==4){
+                cellInRow3.get(i).setCellValue(performanceRecorder.calculateMaxOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.AWS));
+            }else if(i==5){
+                cellInRow3.get(i).setCellValue(performanceRecorder.calculateMaxOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.AWS_MA));
+            }else{
+                cellInRow3.get(i).setCellValue(performanceRecorder.calculateMaxOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.AWS_HOE));
+            }
+        }
+
+        //min diff
+        HSSFRow row4 = sheet.createRow(4);
+        List<HSSFCell> cellInRow4 = new ArrayList<HSSFCell>();
+        for(int i=0;i<7;i++){
+            cellInRow4.add(row4.createCell(i));
+        }
+        for(int i=0;i<7;i++){
+            if(i==0){
+                cellInRow4.get(i).setCellValue("min diff(s)");
+            }else if(i==1){
+                cellInRow4.get(i).setCellValue(performanceRecorder.calculateMinOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.DIJKSTRA));
+            }else if(i==2){
+                cellInRow4.get(i).setCellValue(performanceRecorder.calculateMinOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.ASTAR));
+            }else if(i==3){
+                cellInRow4.get(i).setCellValue(performanceRecorder.calculateMinOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.DWS));
+            }else if(i==4){
+                cellInRow4.get(i).setCellValue(performanceRecorder.calculateMinOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.AWS));
+            }else if(i==5){
+                cellInRow4.get(i).setCellValue(performanceRecorder.calculateMinOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.AWS_MA));
+            }else{
+                cellInRow4.get(i).setCellValue(performanceRecorder.calculateMinOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.AWS_HOE));
+            }
+        }
+
+        //mean diff
+        HSSFRow row5 = sheet.createRow(5);
+        List<HSSFCell> cellInRow5 = new ArrayList<HSSFCell>();
+        for(int i=0;i<7;i++){
+            cellInRow5.add(row5.createCell(i));
+        }
+        for(int i=0;i<7;i++){
+            if(i==0){
+                cellInRow5.get(i).setCellValue("mean diff(s)");
+            }else if(i==1){
+                cellInRow5.get(i).setCellValue(performanceRecorder.calculateMeanOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.DIJKSTRA));
+            }else if(i==2){
+                cellInRow5.get(i).setCellValue(performanceRecorder.calculateMeanOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.ASTAR));
+            }else if(i==3){
+                cellInRow5.get(i).setCellValue(performanceRecorder.calculateMeanOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.DWS));
+            }else if(i==4){
+                cellInRow5.get(i).setCellValue(performanceRecorder.calculateMeanOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.AWS));
+            }else if(i==5){
+                cellInRow5.get(i).setCellValue(performanceRecorder.calculateMeanOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.AWS_MA));
+            }else{
+                cellInRow5.get(i).setCellValue(performanceRecorder.calculateMeanOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.AWS_HOE));
+            }
+        }
+
+        //输出Excel文件
+        FileOutputStream output=new FileOutputStream(outFilePath);
+        wb.write(output);
+        output.flush();
+    }
+
+}
