@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public class OverallSimulation {
 
-    private static String GRAPH_FILE = "experimentData/Maps/doublePartition_graph_k=50.ser";
+    private static String GRAPH_FILE = "experimentData/Maps/doublePartition_graph_k=80.ser";
     //private static String REQUEST_FILE = "experimentData/trajectoryRequests.txt";
     private static String REQUEST_FILE = "experimentData/newGpxTrajRequests.txt";
     private static String PERFORMANCE_FILE_PATH = "experimentData/results/performance.xls";
@@ -112,13 +112,13 @@ public class OverallSimulation {
         }
 
         Exporter exporter = new Exporter();
-        exporter.exportPerformance(PERFORMANCE_FILE_PATH, performanceRecorder);
+        exporter.exportPerformance(PERFORMANCE_FILE_PATH, performanceRecorder,shortcutHitRecorder);
 
-        System.out.println("Restrained Search Count DWS = "+ shortcutHitRecorder.getRestrainedSearchCount_DWS());
-        System.out.println("Restrained Search Count AWS = "+ shortcutHitRecorder.getRestrainedSearchCount_AWS());
-        System.out.println("Restrained Search Count AWS_HOE = "+ shortcutHitRecorder.getRestrainedSearchCount_AWS_HOE());
-        System.out.println("Restrained Search Count AWS_MA = "+ shortcutHitRecorder.getRestrainedSearchCount_AWS_MA());
-        System.out.println("Shortcuts Use Count AWS_MA = "+ shortcutHitRecorder.getShortcutUseCount_AWS_MA());
+//        System.out.println("Restrained Search Count DWS = "+ shortcutHitRecorder.getRestrainedSearchCount_DWS());
+//        System.out.println("Restrained Search Count AWS = "+ shortcutHitRecorder.getRestrainedSearchCount_AWS());
+//        System.out.println("Restrained Search Count AWS_HOE = "+ shortcutHitRecorder.getRestrainedSearchCount_AWS_HOE());
+//        System.out.println("Restrained Search Count AWS_MA = "+ shortcutHitRecorder.getRestrainedSearchCount_AWS_MA());
+//        System.out.println("Shortcuts Use Count AWS_MA = "+ shortcutHitRecorder.getShortcutUseCount_AWS_MA());
 
         System.out.println("输出完成！");
     }

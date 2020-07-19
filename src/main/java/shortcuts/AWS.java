@@ -36,6 +36,7 @@ public class AWS {
             shortcutHitRecorder.restrainedSearchCount_AWS_AddOne();
             return timeDependentRestrainedSearch(g, time, start, target);
         }else{
+            shortcutHitRecorder.shortcutUseCount_AWS_AddOne();
             return timeDependentCrossPartitionSearch(g, time, start, target);
         }
     }

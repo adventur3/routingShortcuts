@@ -37,6 +37,7 @@ public class AWS_HOE {
             shortcutHitRecorder.restrainedSearchCount_AWS_HOE_AddOne();
             return timeDependentRestrainedSearch(g, time, start, target);
         }else{
+            shortcutHitRecorder.shortcutUseCount_AWS_HOE_AddOne();
             return timeDependentCrossPartitionSearch(g, time, start, target);
         }
     }

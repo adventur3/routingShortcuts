@@ -58,11 +58,13 @@ public class DWS {
             shortcutHitRecorder.restrainedSearchCount_DWS_AddOne();
         }else if(p1==null){
             p3 = Dijkstra.timeDependentSinglePath(g, starttime+p2.getWeight(), targetBelong, target);
+            shortcutHitRecorder.shortcutUseCount_DWS_AddOne();
         }else if(p2==null){
             p3 = Dijkstra.timeDependentSinglePath(g, starttime+p1.getWeight(), targetBelong, target);
             shortcutHitRecorder.restrainedSearchCount_DWS_AddOne();
         }else{
             p3 = Dijkstra.timeDependentSinglePath(g, starttime+p1.getWeight()+p2.getWeight(), targetBelong, target);
+            shortcutHitRecorder.shortcutUseCount_DWS_AddOne();
         }
         Path temp_p = Path.pathCombine(p1,p2);
         return Path.pathCombine(temp_p, p3);

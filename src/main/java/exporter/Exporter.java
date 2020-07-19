@@ -7,6 +7,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import recorder.AlgorithmType;
 import recorder.PerformanceRecorder;
+import recorder.ShortcutHitRecorder;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class Exporter {
 //        e.exportPerformance();
 //    }
 
-    public void exportPerformance(String outFilePath, PerformanceRecorder performanceRecorder) throws IOException {
+    public void exportPerformance(String outFilePath, PerformanceRecorder performanceRecorder, ShortcutHitRecorder shortcutHitRecorder) throws IOException {
         //创建HSSFWorkbook对象
         HSSFWorkbook wb = new HSSFWorkbook();
         //创建HSSFSheet对象
@@ -157,6 +158,78 @@ public class Exporter {
                 cellInRow5.get(i).setCellValue(performanceRecorder.calculateMeanOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.AWS_MA));
             }else{
                 cellInRow5.get(i).setCellValue(performanceRecorder.calculateMeanOfDiff(AlgorithmType.DIJKSTRA, AlgorithmType.AWS_HOE));
+            }
+        }
+
+        //restrained search count
+        HSSFRow row6 = sheet.createRow(6);
+        List<HSSFCell> cellInRow6 = new ArrayList<HSSFCell>();
+        for(int i=0;i<7;i++){
+            cellInRow6.add(row6.createCell(i));
+        }
+        for(int i=0;i<7;i++){
+            if(i==0){
+                cellInRow6.get(i).setCellValue("restrained search count");
+            }else if(i==1){
+                cellInRow6.get(i).setCellValue(0);
+            }else if(i==2){
+                cellInRow6.get(i).setCellValue(0);
+            }else if(i==3){
+                cellInRow6.get(i).setCellValue(shortcutHitRecorder.getRestrainedSearchCount_DWS());
+            }else if(i==4){
+                cellInRow6.get(i).setCellValue(shortcutHitRecorder.getRestrainedSearchCount_AWS());
+            }else if(i==5){
+                cellInRow6.get(i).setCellValue(shortcutHitRecorder.getRestrainedSearchCount_AWS_MA());
+            }else{
+                cellInRow6.get(i).setCellValue(shortcutHitRecorder.getRestrainedSearchCount_AWS_HOE());
+            }
+        }
+
+        //shortcuts hit count
+        HSSFRow row7 = sheet.createRow(7);
+        List<HSSFCell> cellInRow7 = new ArrayList<HSSFCell>();
+        for(int i=0;i<7;i++){
+            cellInRow7.add(row7.createCell(i));
+        }
+        for(int i=0;i<7;i++){
+            if(i==0){
+                cellInRow7.get(i).setCellValue("shortcuts hit count");
+            }else if(i==1){
+                cellInRow7.get(i).setCellValue(0);
+            }else if(i==2){
+                cellInRow7.get(i).setCellValue(0);
+            }else if(i==3){
+                cellInRow7.get(i).setCellValue(shortcutHitRecorder.getShortcutUseCount_DWS());
+            }else if(i==4){
+                cellInRow7.get(i).setCellValue(shortcutHitRecorder.getShortcutUseCount_AWS());
+            }else if(i==5){
+                cellInRow7.get(i).setCellValue(shortcutHitRecorder.getShortcutUseCount_AWS_MA());
+            }else{
+                cellInRow7.get(i).setCellValue(shortcutHitRecorder.getShortcutUseCount_AWS_HOE());
+            }
+        }
+
+        //shortcuts hit rate
+        HSSFRow row8 = sheet.createRow(8);
+        List<HSSFCell> cellInRow8 = new ArrayList<HSSFCell>();
+        for(int i=0;i<7;i++){
+            cellInRow8.add(row8.createCell(i));
+        }
+        for(int i=0;i<7;i++){
+            if(i==0){
+                cellInRow8.get(i).setCellValue("shortcuts hit rate");
+            }else if(i==1){
+                cellInRow8.get(i).setCellValue(0);
+            }else if(i==2){
+                cellInRow8.get(i).setCellValue(0);
+            }else if(i==3){
+                cellInRow8.get(i).setCellValue((double)shortcutHitRecorder.getShortcutUseCount_DWS()/performanceRecorder.getRequestNum());
+            }else if(i==4){
+                cellInRow8.get(i).setCellValue((double)shortcutHitRecorder.getShortcutUseCount_AWS()/performanceRecorder.getRequestNum());
+            }else if(i==5){
+                cellInRow8.get(i).setCellValue((double)shortcutHitRecorder.getShortcutUseCount_AWS_MA()/performanceRecorder.getRequestNum());
+            }else{
+                cellInRow8.get(i).setCellValue((double)shortcutHitRecorder.getShortcutUseCount_AWS_HOE()/performanceRecorder.getRequestNum());
             }
         }
 

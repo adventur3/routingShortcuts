@@ -282,4 +282,8 @@ public class PerformanceRecorder {
         double meanDiff = meanOfList(diffList);
         return meanDiff;
     }
+
+    public int getRequestNum() {
+        return requestNum;
+    }
 }
