@@ -23,9 +23,10 @@ public class RequestLoader {
             String s[]=lineTxt.split("#");
             String startId = s[0];
             String targetId = s[1];
+            String starttime = s[2];
             RoadNode startNode = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals(startId)).findAny().get();
             RoadNode targetNode = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals(targetId)).findAny().get();
-            Request request = new Request(startNode, targetNode);
+            Request request = new Request(startNode, targetNode, Long.valueOf(starttime));
             requestList.add(request);
         }
     }

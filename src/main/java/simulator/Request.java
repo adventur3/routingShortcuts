@@ -6,10 +6,12 @@ public class Request {
 
     private RoadNode start;
     private RoadNode target;
+    private long starttime;
 
-    public Request(RoadNode start, RoadNode target){
+    public Request(RoadNode start, RoadNode target, long starttime){
         this.start = start;
         this.target = target;
+        this.starttime = starttime;
     }
 
     public RoadNode getStart() {
@@ -26,5 +28,13 @@ public class Request {
 
     public void setTarget(RoadNode target) {
         this.target = target;
+    }
+
+    public long getStarttime() {
+        return starttime;
+    }
+
+    public void setStarttime(long starttime) {
+        this.starttime = starttime;
     }
 }

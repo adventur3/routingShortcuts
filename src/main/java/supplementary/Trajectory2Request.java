@@ -11,8 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Trajectory2Request {
-    private static String TRAJECTORY_DIR = "experimentData/test";
-    private static String OUT_PATH = "experimentData/testOut/a.txt";
+    private static String TRAJECTORY_DIR = "experimentData/trajectory/2014-07-01-16_clean_2020-07-22-15-41-03_order";
+    private static String OUT_PATH = "experimentData/request/2014-07-01-16_request.txt";
     private static String GRAPH_FILE = "experimentData/Maps/doublePartition_graph_k=10.ser";
 
     public static void main(String[] args) throws Exception{
@@ -25,6 +25,7 @@ public class Trajectory2Request {
             if(!outFile.exists()) {
                 outFile.createNewFile();
             }
+            int count = 0;
             FileOutputStream out = new FileOutputStream(outFile);
             String outStr = "";
             String[] fileList = file.list();
@@ -33,6 +34,8 @@ public class Trajectory2Request {
                 if(!readFile.isDirectory()){
                     outStr = oneTrajectory2OneRequest(readFile, g);
                     out.write(outStr.getBytes());
+                    count++;
+                    System.out.println(count);
                 }
             }
         }
@@ -67,7 +70,7 @@ public class Trajectory2Request {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = simpleDateFormat.parse(t);
         long ts = date.getTime();
-        return ts/1000;
+        return ts;
         //return Long.valueOf(ts);
     }
 }

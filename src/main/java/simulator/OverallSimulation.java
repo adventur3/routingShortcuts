@@ -25,14 +25,15 @@ import java.util.Map;
  */
 public class OverallSimulation {
 
-    private static String GRAPH_FILE = "experimentData/Maps/doublePartition_graph_k=80.ser";
+    private static String GRAPH_FILE = "experimentData/Maps/doublePartition_graph_k=50.ser";
     //private static String REQUEST_FILE = "experimentData/trajectoryRequests.txt";
-    private static String REQUEST_FILE = "experimentData/newGpxTrajRequests.txt";
-    private static String PERFORMANCE_FILE_PATH = "experimentData/results/performance.xls";
+    private static String REQUEST_FILE = "experimentData/request/2014-07-01-16_request.txt";
+    private static String PERFORMANCE_FILE_PATH = "experimentData/results/performance";
+    private static String PERFORMANCE_FILE_SUFFIX = ".xls";
 
     public void simulate() throws Exception{
         SimClock simClock = new SimClock(1553951724000L,1000);
-        long starttime = 1553951724000L;
+        //long starttime = 1553951724000L;
         //create the road net
         Graph<RoadNode, RoadEdge> g = LoadMap2.getMap(GRAPH_FILE);
         System.out.println("graph ok");
@@ -53,7 +54,7 @@ public class OverallSimulation {
                 Instant inst1 = Instant.now();
                 while(it.hasNext()){
                     Request r = it.next();
-                    Path p = Dijkstra.timeDependentSinglePath(g, starttime, r.getStart(), r.getTarget());
+                    Path p = Dijkstra.timeDependentSinglePath(g, r.getStarttime(), r.getStart(), r.getTarget());
                     performanceRecorder.addLength(AlgorithmType.DIJKSTRA, p.getWeight());
                 }
                 Instant inst2 = Instant.now();
@@ -63,7 +64,7 @@ public class OverallSimulation {
                 Instant inst1 = Instant.now();
                 while(it.hasNext()){
                     Request r = it.next();
-                    Path p = AStar.timeDependentSinglePath(g, starttime, r.getStart(), r.getTarget());
+                    Path p = AStar.timeDependentSinglePath(g, r.getStarttime(), r.getStart(), r.getTarget());
                     performanceRecorder.addLength(AlgorithmType.ASTAR, p.getWeight());
                 }
                 Instant inst2 = Instant.now();
@@ -73,7 +74,7 @@ public class OverallSimulation {
                 Instant inst1 = Instant.now();
                 while(it.hasNext()){
                     Request r = it.next();
-                    Path p = DWS.timeDependentSinglePath(g, starttime, r.getStart(), r.getTarget(), shortcutHitRecorder);
+                    Path p = DWS.timeDependentSinglePath(g, r.getStarttime(), r.getStart(), r.getTarget(), shortcutHitRecorder);
                     performanceRecorder.addLength(AlgorithmType.DWS, p.getWeight());
                 }
                 Instant inst2 = Instant.now();
@@ -83,7 +84,7 @@ public class OverallSimulation {
                 Instant inst1 = Instant.now();
                 while(it.hasNext()){
                     Request r = it.next();
-                    Path p = AWS.timeDependentSinglePath(g, starttime, r.getStart(), r.getTarget(), shortcutHitRecorder);
+                    Path p = AWS.timeDependentSinglePath(g, r.getStarttime(), r.getStart(), r.getTarget(), shortcutHitRecorder);
                     performanceRecorder.addLength(AlgorithmType.AWS, p.getWeight());
                 }
                 Instant inst2 = Instant.now();
@@ -93,7 +94,7 @@ public class OverallSimulation {
                 Instant inst1 = Instant.now();
                 while(it.hasNext()){
                     Request r = it.next();
-                    Path p = AWS_MA.timeDependentSinglePath(g, starttime, r.getStart(), r.getTarget(), shortcutHitRecorder);
+                    Path p = AWS_MA.timeDependentSinglePath(g, r.getStarttime(), r.getStart(), r.getTarget(), shortcutHitRecorder);
                     performanceRecorder.addLength(AlgorithmType.AWS_MA, p.getWeight());
                 }
                 Instant inst2 = Instant.now();
@@ -103,7 +104,7 @@ public class OverallSimulation {
                 Instant inst1 = Instant.now();
                 while(it.hasNext()){
                     Request r = it.next();
-                    Path p = AWS_HOE.timeDependentSinglePath(g, starttime, r.getStart(), r.getTarget(), shortcutHitRecorder);
+                    Path p = AWS_HOE.timeDependentSinglePath(g, r.getStarttime(), r.getStart(), r.getTarget(), shortcutHitRecorder);
                     performanceRecorder.addLength(AlgorithmType.AWS_HOE, p.getWeight());
                 }
                 Instant inst2 = Instant.now();
@@ -112,7 +113,7 @@ public class OverallSimulation {
         }
 
         Exporter exporter = new Exporter();
-        exporter.exportPerformance(PERFORMANCE_FILE_PATH, performanceRecorder,shortcutHitRecorder);
+        exporter.exportPerformance(PERFORMANCE_FILE_PATH+String.valueOf(System.currentTimeMillis()/1000)+PERFORMANCE_FILE_SUFFIX, performanceRecorder,shortcutHitRecorder);
 
 //        System.out.println("Restrained Search Count DWS = "+ shortcutHitRecorder.getRestrainedSearchCount_DWS());
 //        System.out.println("Restrained Search Count AWS = "+ shortcutHitRecorder.getRestrainedSearchCount_AWS());
