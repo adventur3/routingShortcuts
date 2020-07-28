@@ -2,6 +2,7 @@ package shortcuts;
 
 import astar.AStar;
 import astar.AStarInfoNode;
+import astar.RestrainedAStar;
 import org.jgrapht.Graph;
 import roadNetwork.*;
 import recorder.ShortcutHitRecorder;
@@ -9,7 +10,7 @@ import recorder.ShortcutHitRecorder;
 import java.util.*;
 
 /*
- * AWS-MA: A* WITH SHORTCUTS-A MORE ACCURATE VERSION
+ * AWS-MA: AWS+HOD+HOE
  */
 public class AWS_MA {
 
@@ -22,7 +23,7 @@ public class AWS_MA {
         RoadNode targetBelong = target.getBelongTo();
         if(startBelong == targetBelong){
             shortcutHitRecorder.restrainedSearchCount_AWS_MA_AddOne();
-            return AStar.timeDependentSinglePath(g, starttime, start, target);
+            return RestrainedAStar.timeDependentSinglePath(g, starttime, start, target, startBelong);
         }
         Path p1 = null;
         Path p2 = null;
