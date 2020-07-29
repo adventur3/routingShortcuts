@@ -116,7 +116,10 @@ public class PerformanceRecorder {
             if(diff<0 && diff>-600){
                 diff = 1;
             }
-            if(diff>max) max = diff;
+            if(diff>max) {
+                max = diff;
+                //System.out.println(i);
+            }
         }
         return max;
     }

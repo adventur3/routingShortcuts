@@ -55,7 +55,7 @@ public class OverallSimulation {
                 case AWS_HOE: c = Class.forName("shortcuts.AWS_HOE"); break;
                 case AWS_MA: c = Class.forName("shortcuts.AWS_MA"); break;
             }
-            Method method = c.getDeclaredMethod("timeDependentSinglePath", org.jgrapht.Graph.class, Long.class, roadNetwork.RoadNode.class, roadNetwork.RoadNode.class, recorder.ShortcutHitRecorder.class);
+            Method method = c.getDeclaredMethod("timeDependentSinglePath", org.jgrapht.Graph.class, long.class, roadNetwork.RoadNode.class, roadNetwork.RoadNode.class, recorder.ShortcutHitRecorder.class);
             Iterator<Request> it = requestLoader.getRequestList().iterator();
             Instant inst1 = Instant.now();
             while(it.hasNext()){
