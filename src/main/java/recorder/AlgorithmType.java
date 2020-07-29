@@ -1,5 +1,5 @@
 package recorder;
 
 public enum AlgorithmType {
-    DIJKSTRA, ASTAR, DWS, AWS, AWS_MA, AWS_HOE
+    TDA, AWS, AWS_HOD, AWS_HOE, AWS_MA
 }

@@ -2,6 +2,7 @@ package shortcuts;
 
 import astar.RestrainedAStar;
 import org.jgrapht.Graph;
+import recorder.AlgorithmType;
 import roadNetwork.Path;
 import roadNetwork.RoadEdge;
 import roadNetwork.RoadNode;
@@ -33,10 +34,10 @@ public class AWS {
 
     public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target, ShortcutHitRecorder shortcutHitRecorder){
         if(isSameCore(start, target)){
-            shortcutHitRecorder.restrainedSearchCount_AWS_AddOne();
+            shortcutHitRecorder.restrainedSearchCountAddOne(AlgorithmType.AWS);
             return timeDependentRestrainedSearch(g, time, start, target);
         }else{
-            shortcutHitRecorder.shortcutUseCount_AWS_AddOne();
+            shortcutHitRecorder.shortcutHitCountAddOne(AlgorithmType.AWS);
             return timeDependentCrossPartitionSearch(g, time, start, target);
         }
     }

@@ -1,0 +1,5 @@
+package recorder;
+
+public enum PerformanceType {
+    MEAN_LENGTH_s, MEAN_SEARCH_TIME_ms, RESTRAINED_SEARCH_COUNT, SHORTCUT_HIT_COUNT, SHORTCUT_HIT_RATE, MAX_DIFF_s, MIN_DIFF_s, MEAN_DIFF_s
+}

@@ -3,6 +3,7 @@ package shortcuts;
 import astar.AStar;
 import astar.RestrainedAStar;
 import org.jgrapht.Graph;
+import recorder.AlgorithmType;
 import roadNetwork.*;
 import recorder.ShortcutHitRecorder;
 
@@ -34,11 +35,11 @@ public class AWS_HOE {
 
     public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target, ShortcutHitRecorder shortcutHitRecorder){
         if(isSameCore(start, target)){
-            shortcutHitRecorder.restrainedSearchCount_AWS_HOE_AddOne();
+            shortcutHitRecorder.restrainedSearchCountAddOne(AlgorithmType.AWS_HOE);
             return timeDependentRestrainedSearch(g, time, start, target);
         }else{
-            shortcutHitRecorder.shortcutUseCount_AWS_HOE_AddOne();
-            return timeDependentCrossPartitionSearch(g, time, start, target);
+            shortcutHitRecorder.shortcutHitCountAddOne(AlgorithmType.AWS_HOE);
+            return timeDependentCrossPartitionSearch(g, time, start, target, shortcutHitRecorder);
         }
     }
 
@@ -62,14 +63,14 @@ public class AWS_HOE {
         return Path.pathCombine(Path.pathCombine(path1,path2),path3);
     }
 
-    public static Path timeDependentCrossPartitionSearch(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target){
+    public static Path timeDependentCrossPartitionSearch(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target, ShortcutHitRecorder shortcutHitRecorder){
         long starttime = time;
         RoadNode startCore = start.getBelongTo_incoming();
         RoadNode targetCore = target.getBelongTo();
         Path path1 = RestrainedAStar.timeDependentSinglePath(g, starttime, start, startCore, startCore);
         Path path2 =startCore.getCoreNode().getPath(starttime+path1.getWeight(), targetCore.getCoreNode());
         path2 = getLongestPathToRegin(target, path2);
-        Path path3 = AStar.timeDependentSinglePath(g, starttime+path1.getWeight()+path2.getWeight(), path2.getTargetNode(), target);
+        Path path3 = AStar.timeDependentSinglePath(g, starttime+path1.getWeight()+path2.getWeight(), path2.getTargetNode(), target, shortcutHitRecorder);
         return Path.pathCombine(Path.pathCombine(path1,path2),path3);
     }
 

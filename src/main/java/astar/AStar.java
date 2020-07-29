@@ -1,6 +1,7 @@
 package astar;
 
 import org.jgrapht.Graph;
+import recorder.ShortcutHitRecorder;
 import roadNetwork.*;
 import simulator.SimClock;
 
@@ -13,7 +14,7 @@ public class AStar {
     /*
      * get the astar shortest path from start to target
      */
-    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target) {
+    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target, ShortcutHitRecorder shr) {
         long startTime = time;
         Map<String, AStarInfoNode> infoNodes=new HashMap<String,AStarInfoNode>();  //为了根据roadNode找到infoNode
         LinkedList<AStarInfoNode> priorityQueue = new LinkedList<AStarInfoNode>();

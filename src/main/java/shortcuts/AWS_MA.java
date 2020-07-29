@@ -4,6 +4,7 @@ import astar.AStar;
 import astar.AStarInfoNode;
 import astar.RestrainedAStar;
 import org.jgrapht.Graph;
+import recorder.AlgorithmType;
 import roadNetwork.*;
 import recorder.ShortcutHitRecorder;
 
@@ -22,7 +23,7 @@ public class AWS_MA {
         RoadNode startBelong = start.getBelongTo_incoming();
         RoadNode targetBelong = target.getBelongTo();
         if(startBelong == targetBelong){
-            shortcutHitRecorder.restrainedSearchCount_AWS_MA_AddOne();
+            shortcutHitRecorder.restrainedSearchCountAddOne(AlgorithmType.AWS_MA);
             return RestrainedAStar.timeDependentSinglePath(g, starttime, start, target, startBelong);
         }
         Path p1 = null;
@@ -38,10 +39,10 @@ public class AWS_MA {
             if(startBelong == targetBelong){
                 p2 = null;
                 p1 = getLongestPathToRegin(target,p1);
-                p3 = AStar.timeDependentSinglePath(g, starttime+p1.getWeight(), p1.getTargetNode(), target);
+                p3 = AStar.timeDependentSinglePath(g, starttime+p1.getWeight(), p1.getTargetNode(), target, shortcutHitRecorder);
                 return Path.pathCombine(p1,p3);
             }else{
-                shortcutHitRecorder.shortcutUseCount_AWS_MA_AddOne();
+                shortcutHitRecorder.shortcutHitCountAddOne(AlgorithmType.AWS_MA);
                 if(p1!=null){
                     p2 = startBelong.getCoreNode().getPath(starttime+p1.getWeight(), targetBelong.getCoreNode());
                 }else{
@@ -52,9 +53,9 @@ public class AWS_MA {
                 }
                 p2 = getLongestPathToRegin(target,p2);
                 if(p1!=null){
-                    p3 = AStar.timeDependentSinglePath(g, starttime+p1.getWeight()+p2.getWeight(), p2.getTargetNode(), target);
+                    p3 = AStar.timeDependentSinglePath(g, starttime+p1.getWeight()+p2.getWeight(), p2.getTargetNode(), target, shortcutHitRecorder);
                 }else{
-                    p3 = AStar.timeDependentSinglePath(g, starttime+p2.getWeight(), p2.getTargetNode(), target);
+                    p3 = AStar.timeDependentSinglePath(g, starttime+p2.getWeight(), p2.getTargetNode(), target, shortcutHitRecorder);
                 }
             }
         }

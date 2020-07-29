@@ -4,6 +4,7 @@ import astar.AStar;
 import astar.AStarInfoNode;
 import astar.RestrainedAStar;
 import org.jgrapht.Graph;
+import recorder.AlgorithmType;
 import roadNetwork.*;
 import recorder.ShortcutHitRecorder;
 
@@ -14,7 +15,7 @@ import java.util.*;
  */
 public class AWS_HOD {
 
-    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target){
+    public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target, ShortcutHitRecorder shortcutHitRecorder){
         long starttime = time;
         if(start == target){
             return null;
@@ -22,6 +23,7 @@ public class AWS_HOD {
         RoadNode startBelong = start.getBelongTo_incoming();
         RoadNode targetBelong = target.getBelongTo();
         if(startBelong == targetBelong){
+            shortcutHitRecorder.restrainedSearchCountAddOne(AlgorithmType.AWS_HOD);
             return RestrainedAStar.timeDependentSinglePath(g, starttime, start, target, startBelong);
         }
         Path p1 = null;
@@ -39,13 +41,22 @@ public class AWS_HOD {
             }else{
                 p2 = startBelong.getCoreNode().getPath(starttime, targetBelong.getCoreNode());
             }
-            if(p2.getTargetNode() == target){
-                return Path.pathCombine(p1,p2);
-            }
-            if(p1!=null){
-                p3 = RestrainedAStar.timeDependentSinglePath(g, starttime+p1.getWeight()+p2.getWeight(), p2.getTargetNode(), target, targetBelong);
+            if(p2!=null){
+                shortcutHitRecorder.shortcutHitCountAddOne(AlgorithmType.AWS_HOD);
+                if(p2.getTargetNode() == target){
+                    return Path.pathCombine(p1,p2);
+                }
+                if(p1!=null){
+                    p3 = RestrainedAStar.timeDependentSinglePath(g, starttime+p1.getWeight()+p2.getWeight(), p2.getTargetNode(), target, targetBelong);
+                }else{
+                    p3 = RestrainedAStar.timeDependentSinglePath(g, starttime+p2.getWeight(), p2.getTargetNode(), target, targetBelong);
+                }
             }else{
-                p3 = RestrainedAStar.timeDependentSinglePath(g, starttime+p2.getWeight(), p2.getTargetNode(), target, targetBelong);
+                if(p1!=null){
+                    p3 = RestrainedAStar.timeDependentSinglePath(g, starttime+p1.getWeight(), p1.getTargetNode(), target, targetBelong);
+                }else{
+                    p3 = RestrainedAStar.timeDependentSinglePath(g, starttime, startBelong, target, targetBelong);
+                }
             }
         }
         Path temp_p = Path.pathCombine(p1,p2);
