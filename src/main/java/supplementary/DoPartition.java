@@ -17,7 +17,7 @@ public class DoPartition {
     private static String USER="root";
     private static String PASSWORD="mocom123";
     //private static int CORE_CHOOSE_NUMS=4000;
-    private static int CORE_NUM=100;
+    private static int CORE_NUM=50;
     public static String GRAPH_INFORMATION="experimentData/originGraph/origin_graph.ser"; //初始的,只有节点和边及边的长度的地图
     public static String CORE_NODE_FILE="experimentData/coreNodes/k="+CORE_NUM+".txt";
     public static String OUTGOING_FILE="experimentData/belongings/outgoingBelong_k="+CORE_NUM+".txt";
@@ -36,8 +36,8 @@ public class DoPartition {
         Graph<RoadNode, RoadEdge> g = initRoadNetwork();
         //set core nodes
         List<RoadNode> coreNodes = setCoreNodes(g, coreInfo);
-        //outgoingPartition(g, coreNodes, OUTGOING_FILE);
-        incomingPartition(g, coreNodes, INCOMING_FILE);
+        outgoingPartition(g, coreNodes, OUTGOING_FILE);
+        //incomingPartition(g, coreNodes, INCOMING_FILE);
     }
 
     public static void outgoingPartition(Graph<RoadNode, RoadEdge> g, List<RoadNode> coreNodes, String fileName) throws Exception{
@@ -50,6 +50,9 @@ public class DoPartition {
             numMap.put(id, 0);
             finishFlag.put(id, false);
         }
+        long max=0;
+        String maxC ="";
+        String maxN ="";
         while(!isFinish(finishFlag)){
             for(Map.Entry<RoadNode, PriorityQueue<TempNode>> entry:map.entrySet()){
                 RoadNode coreNode = entry.getKey();
@@ -60,6 +63,11 @@ public class DoPartition {
                     while(setNode==null && !queue.isEmpty()){
                         TempNode tempNode = queue.poll();
                         if(tempNode.getRoadNode().getBelongTo()==null ){
+                            if(max < tempNode.getLength()){
+                                max = tempNode.getLength();
+                                maxN = tempNode.getRoadNode().getOsmId();
+                                maxC = coreNode.getOsmId();
+                            }
                             setNode = tempNode.getRoadNode();
                             setNode.setBelongTo(coreNode);
                             addOutgoingNeighbor(g, queue, setNode);
@@ -74,6 +82,7 @@ public class DoPartition {
                 }
             }
         }
+        System.out.println("max distance = " + max+", coreNodeId = "+maxC+", maxNode = "+maxN);
         System.out.println(numMap);
         int totalNum = 0;
         for(Map.Entry<String, Integer> entry:numMap.entrySet()){

@@ -15,6 +15,14 @@ import java.util.*;
  */
 public class AWS_MA {
 
+    public static boolean isCloseNodes(RoadNode r1, RoadNode r2){
+        if(MillerCoordinate.distance(r1,r2)<4000){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target, ShortcutHitRecorder shortcutHitRecorder){
         long starttime = time;
         if(start == target){
@@ -25,6 +33,10 @@ public class AWS_MA {
         if(startBelong == targetBelong){
             shortcutHitRecorder.restrainedSearchCountAddOne(AlgorithmType.AWS_MA);
             return RestrainedAStar.timeDependentSinglePath(g, starttime, start, target, startBelong);
+        }else{
+            if(isCloseNodes(start, target)){
+                return AStar.timeDependentSinglePath(g, starttime, start, target, shortcutHitRecorder);
+            }
         }
         Path p1 = null;
         Path p2 = null;
