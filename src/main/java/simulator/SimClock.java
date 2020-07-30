@@ -9,9 +9,9 @@ import java.io.Serializable;
  */
 public class SimClock implements Serializable {
     private static int breakPoint=24;
-    private long starttime;
-    private long now;
-    private int ut;
+    private long starttime;  //measurement：millisecond
+    private long now;       //measurement：millisecond
+    private int ut;         //measurement：millisecond
 
     public SimClock(long starttime, int ut) {
         this.starttime = starttime;

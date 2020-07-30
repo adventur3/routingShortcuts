@@ -6,21 +6,6 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class PerformanceRecorder {
-
-//    private LinkedList<Long> dijkstraLength;   //ms
-//    private LinkedList<Long> astarLength;
-//    private LinkedList<Long> dwsLength;
-//    private LinkedList<Long> awsLength;
-//    private LinkedList<Long> aws_maLength;
-//    private LinkedList<Long> aws_hoeLength;
-//
-//    private long dijkstraTotalSearchTime;  //ms
-//    private long astarTotalSearchTime;
-//    private long dwsTotalSearchTime;
-//    private long awsTotalSearchTime;
-//    private long aws_maTotalSearchTime;
-//    private long aws_hoeTotalSearchTime;
-
     Map<AlgorithmType, Long> searchTimes;
     Map<AlgorithmType, LinkedList<Long>> lengths;
 

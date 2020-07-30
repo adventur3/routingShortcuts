@@ -30,8 +30,6 @@ public class OverallSimulation {
     private static String PERFORMANCE_FILE_SUFFIX = ".xls";
 
     public void simulate() throws Exception{
-        SimClock simClock = new SimClock(1553951724000L,1000);
-        //long starttime = 1553951724000L;
         //create the road net
         Graph<RoadNode, RoadEdge> g = LoadMap2.getMap(GRAPH_FILE);
         System.out.println("graph ok");
@@ -39,13 +37,8 @@ public class OverallSimulation {
         requestLoader.loadRequest(REQUEST_FILE, g);
         //RoadNode e1 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("1881181356")).findAny().get();
         //RoadNode e2 = g.vertexSet().stream().filter(elemen -> elemen.getOsmId().equals("2592412682")).findAny().get();
-
         ShortcutHitRecorder shortcutHitRecorder = new ShortcutHitRecorder();
         PerformanceRecorder performanceRecorder = new PerformanceRecorder(requestLoader.getRequestList().size());
-
-        //String[] algArray = new String[]{"TDA", "AWS", "AWS-HOD", "AWS-HOE", "AWS-MA"};
-
-        //for(int i=0;i<algArray.length;i++){
         for(AlgorithmType algorithmType : AlgorithmType.values()){
             Class c = null;
             switch(algorithmType){
@@ -65,71 +58,10 @@ public class OverallSimulation {
             }
             Instant inst2 = Instant.now();
             performanceRecorder.addSearchTime(algorithmType, Duration.between(inst1, inst2).toMillis());
-
-
-//            if(algorithmType == AlgorithmType.TDA){
-//                Iterator<Request> it = requestLoader.getRequestList().iterator();
-//                Instant inst1 = Instant.now();
-//                while(it.hasNext()){
-//                    Request r = it.next();
-//                    Path p = AStar.timeDependentSinglePath(g, r.getStarttime(), r.getStart(), r.getTarget());
-//                    performanceRecorder.addLength(algorithmType, p.getWeight());
-//                }
-//                Instant inst2 = Instant.now();
-//                performanceRecorder.addSearchTime(AlgorithmType.TDA, Duration.between(inst1, inst2).toMillis());
-//            }else if(algorithmType == AlgorithmType.AWS) {
-//                Iterator<Request> it = requestLoader.getRequestList().iterator();
-//                Instant inst1 = Instant.now();
-//                while(it.hasNext()){
-//                    Request r = it.next();
-//                    Path p = AWS.timeDependentSinglePath(g, r.getStarttime(), r.getStart(), r.getTarget(), shortcutHitRecorder);
-//                    performanceRecorder.addLength(algorithmType, p.getWeight());
-//                }
-//                Instant inst2 = Instant.now();
-//                performanceRecorder.addSearchTime(AlgorithmType.AWS, Duration.between(inst1, inst2).toMillis());
-//            }else if(algorithmType == AlgorithmType.AWS_HOD){
-//                Iterator<Request> it = requestLoader.getRequestList().iterator();
-//                Instant inst1 = Instant.now();
-//                while(it.hasNext()){
-//                    Request r = it.next();
-//                    Path p = AWS_HOD.timeDependentSinglePath(g, r.getStarttime(), r.getStart(), r.getTarget(), shortcutHitRecorder);
-//                    performanceRecorder.addLength(algorithmType, p.getWeight());
-//                }
-//                Instant inst2 = Instant.now();
-//                performanceRecorder.addSearchTime(algorithmType, Duration.between(inst1, inst2).toMillis());
-//            }else if(algorithmType == AlgorithmType.AWS_HOE){
-//                Iterator<Request> it = requestLoader.getRequestList().iterator();
-//                Instant inst1 = Instant.now();
-//                while(it.hasNext()){
-//                    Request r = it.next();
-//                    Path p = AWS_HOE.timeDependentSinglePath(g, r.getStarttime(), r.getStart(), r.getTarget(), shortcutHitRecorder);
-//                    performanceRecorder.addLength(algorithmType, p.getWeight());
-//                }
-//                Instant inst2 = Instant.now();
-//                performanceRecorder.addSearchTime(algorithmType, Duration.between(inst1, inst2).toMillis());
-//            }else if(algorithmType == AlgorithmType.AWS_MA){
-//                Iterator<Request> it = requestLoader.getRequestList().iterator();
-//                Instant inst1 = Instant.now();
-//                while(it.hasNext()){
-//                    Request r = it.next();
-//                    Path p = AWS_MA.timeDependentSinglePath(g, r.getStarttime(), r.getStart(), r.getTarget(), shortcutHitRecorder);
-//                    performanceRecorder.addLength(algorithmType, p.getWeight());
-//                }
-//                Instant inst2 = Instant.now();
-//                performanceRecorder.addSearchTime(algorithmType, Duration.between(inst1, inst2).toMillis());
-//            }
-
-
         }
 
         Exporter exporter = new Exporter();
         exporter.exportPerformance(PERFORMANCE_FILE_PATH+String.valueOf(System.currentTimeMillis()/1000)+PERFORMANCE_FILE_SUFFIX, performanceRecorder,shortcutHitRecorder);
-
-//        System.out.println("Restrained Search Count DWS = "+ shortcutHitRecorder.getRestrainedSearchCount_DWS());
-//        System.out.println("Restrained Search Count AWS = "+ shortcutHitRecorder.getRestrainedSearchCount_AWS());
-//        System.out.println("Restrained Search Count AWS_HOE = "+ shortcutHitRecorder.getRestrainedSearchCount_AWS_HOE());
-//        System.out.println("Restrained Search Count AWS_MA = "+ shortcutHitRecorder.getRestrainedSearchCount_AWS_MA());
-//        System.out.println("Shortcuts Use Count AWS_MA = "+ shortcutHitRecorder.getShortcutUseCount_AWS_MA());
 
         System.out.println("输出完成！");
     }
