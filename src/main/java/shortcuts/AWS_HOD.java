@@ -20,6 +20,9 @@ public class AWS_HOD {
         if(start == target){
             return null;
         }
+        if(start.getBelongTo()==target.getBelongTo() || start.getBelongTo_incoming()==target.getBelongTo_incoming()){
+            return AStar.timeDependentSinglePath(g, time, start, target, shortcutHitRecorder);
+        }
         RoadNode startBelong = start.getBelongTo_incoming();
         RoadNode targetBelong = target.getBelongTo();
         if(startBelong == targetBelong){

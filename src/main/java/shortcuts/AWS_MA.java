@@ -28,15 +28,14 @@ public class AWS_MA {
         if(start == target){
             return null;
         }
+        if(start.getBelongTo()==target.getBelongTo() || start.getBelongTo_incoming()==target.getBelongTo_incoming()){
+            return AStar.timeDependentSinglePath(g, time, start, target, shortcutHitRecorder);
+        }
         RoadNode startBelong = start.getBelongTo_incoming();
         RoadNode targetBelong = target.getBelongTo();
         if(startBelong == targetBelong){
             shortcutHitRecorder.restrainedSearchCountAddOne(AlgorithmType.AWS_MA);
             return RestrainedAStar.timeDependentSinglePath(g, starttime, start, target, startBelong);
-        }else{
-            if(isCloseNodes(start, target)){
-                return AStar.timeDependentSinglePath(g, starttime, start, target, shortcutHitRecorder);
-            }
         }
         Path p1 = null;
         Path p2 = null;

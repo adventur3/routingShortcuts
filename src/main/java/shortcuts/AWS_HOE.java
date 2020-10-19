@@ -34,7 +34,11 @@ public class AWS_HOE {
     }
 
     public static Path timeDependentSinglePath(Graph<RoadNode, RoadEdge> g, long time, RoadNode start, RoadNode target, ShortcutHitRecorder shortcutHitRecorder){
-        if(isSameCore(start, target)){
+        if(start.getBelongTo()==target.getBelongTo() || start.getBelongTo_incoming()==target.getBelongTo_incoming()){
+            return AStar.timeDependentSinglePath(g, time, start, target, shortcutHitRecorder);
+        }
+
+        else if(isSameCore(start, target)){
             shortcutHitRecorder.restrainedSearchCountAddOne(AlgorithmType.AWS_HOE);
             return timeDependentRestrainedSearch(g, time, start, target);
         }else{
