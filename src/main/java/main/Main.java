@@ -1,10 +1,10 @@
 package main;
 
-import simulator.OverallSimulation;
+import simulator.OverallSimulation_test;
 
 public class Main {
     public static void main(String[] args) throws Exception{
-        OverallSimulation overallSimulator = new OverallSimulation();
+        OverallSimulation_test overallSimulator = new OverallSimulation_test();
         overallSimulator.simulate();
     }
 }
